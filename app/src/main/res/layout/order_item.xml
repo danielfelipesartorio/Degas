@@ -16,12 +16,12 @@
         tools:text="Cliente A"
        />
     <TextView
-        android:id="@+id/textViewOrderSize"
+        android:id="@+id/textViewOrderDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="25"/>
+        tools:text="01/01/19"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

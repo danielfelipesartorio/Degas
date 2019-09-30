@@ -11,7 +11,7 @@ import com.sartorio.degas.R
 import com.sartorio.degas.model.Order
 import com.sartorio.degas.ui.customcompoents.SearchableDialog
 import com.sartorio.degas.ui.customcompoents.SearchableDialogClickListener
-import com.sartorio.degas.ui.orderdetails.OrderActivity
+import com.sartorio.degas.ui.orderdetails.OrderDetailsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -22,12 +22,13 @@ class OrdersListActivity : AppCompatActivity(),
     private val ordersListViewModel: OrdersListViewModel by viewModel()
 
     private val clientsDialog: SearchableDialog by lazy {
-        SearchableDialog(this, ordersListViewModel.getClientNameList(),this)
+        SearchableDialog(this, ordersListViewModel.getClientNameList(), this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        supportActionBar?.title = "Pedidos Cadastrados"
         initView()
     }
 
@@ -49,7 +50,7 @@ class OrdersListActivity : AppCompatActivity(),
         })
     }
 
-    private fun setupAdapter( list: MutableList<Order>) {
+    private fun setupAdapter(list: MutableList<Order>) {
 
 
         recyclerViewOrdersList.adapter =
@@ -68,7 +69,7 @@ class OrdersListActivity : AppCompatActivity(),
 
 
     override fun onClick(order: Order) {
-        startActivity(Intent(this, OrderActivity::class.java))
+        startActivity(OrderDetailsActivity.createIntent(this, order.clientName, order.date))
     }
 
     override fun onListItemClick(item: String) {
@@ -90,7 +91,7 @@ class OrdersListActivity : AppCompatActivity(),
 
     companion object {
         @JvmStatic
-        fun createIntent(context: Context):Intent{
+        fun createIntent(context: Context): Intent {
             return Intent(context, OrdersListActivity::class.java)
         }
     }
