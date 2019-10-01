@@ -11,6 +11,7 @@ import com.sartorio.degas.R
 import com.sartorio.degas.model.Order
 import com.sartorio.degas.ui.customcompoents.SearchableDialog
 import com.sartorio.degas.ui.customcompoents.SearchableDialogClickListener
+import com.sartorio.degas.ui.newclient.NewClientActivity
 import com.sartorio.degas.ui.orderdetails.OrderDetailsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -59,6 +60,7 @@ class OrdersListActivity : AppCompatActivity(),
 
     private fun setupListeners() {
         buttonAddOrder.setOnClickListener {
+            startActivity(NewClientActivity.createIntent(this))
             clientsDialog.show()
         }
     }
