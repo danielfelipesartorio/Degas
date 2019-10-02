@@ -15,6 +15,8 @@ class ProductViewModel(
 
     private lateinit var listOfOrders: MutableList<ProductOrder>
     private lateinit var order: Order
+    private lateinit var product: Product
+    val productOrders = MutableLiveData<MutableList<ProductOrder>>()
 
     fun plusOne(color: Int, size: String) {
         listOfOrders.find { it.productColor == color }?.plusOne(size)
@@ -27,9 +29,10 @@ class ProductViewModel(
     }
 
     fun initViewModel(code: String, orderId: Int) {
-        this.order = orderRepository.getOrderByClient(orderId)
+        this.order = orderRepository.getOrderById(orderId)
         product = productRepository.getProductByCode(code)
-        listOfOrders = orderRepository.getProductOrdersByProductCode(code, orderId)
+        listOfOrders = mutableListOf()
+        listOfOrders.addAll(order.productList.filter { it.product.code == code })
         getProductOrders()
     }
 
@@ -56,6 +59,5 @@ class ProductViewModel(
         orderRepository.updateOrderList(product, listOfOrders, order.id)
     }
 
-    private lateinit var product: Product
-    val productOrders = MutableLiveData<MutableList<ProductOrder>>()
+
 }

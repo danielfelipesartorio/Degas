@@ -7,7 +7,6 @@ import com.sartorio.degas.model.Product
 import com.sartorio.degas.model.ProductOrder
 import com.sartorio.degas.ui.OrderRepository
 import com.sartorio.degas.ui.ProductRepository
-import java.util.*
 
 class OrderDetailsViewModel(
     private val productRepository: ProductRepository,
@@ -19,13 +18,13 @@ class OrderDetailsViewModel(
     private lateinit var order: Order
 
     fun initViewModel(orderId: Int) {
-        this.order = orderRepository.getOrderByClient(orderId)
+        this.order = orderRepository.getOrderById(orderId)
         productOrderList.postValue(order.productList)
     }
 
     fun removeOrder(productOrder: ProductOrder) {
         orderRepository.removeOrder(productOrder)
-        productOrderList.postValue(orderRepository.getOrderDetails(productOrder.orderId))
+        productOrderList.postValue(orderRepository.getOrderById(productOrder.orderId).productList)
     }
 
     fun getProductList(): List<Product> {
@@ -33,6 +32,6 @@ class OrderDetailsViewModel(
     }
 
     fun getOrderByClient(orderId : Int): Order {
-        return orderRepository.getOrderByClient(orderId)
+        return orderRepository.getOrderById(orderId)
     }
 }

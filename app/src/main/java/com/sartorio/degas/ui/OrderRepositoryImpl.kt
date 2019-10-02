@@ -54,16 +54,8 @@ class OrderRepositoryImpl(productRepository: ProductRepository) : OrderRepositor
         fakeOrdersList.remove(order)
     }
 
-    override fun getOrderByClient(orderId: Int): Order {
+    override fun getOrderById(orderId: Int): Order {
         return fakeOrdersList.find { it.id == orderId } ?: throw Exception()
-    }
-
-    override fun getProductOrdersByProductCode(
-        code: String,
-        orderId: Int
-    ): MutableList<ProductOrder> {
-        return (fakeOrdersList.find { it.id == orderId } ?: throw Exception()).productList.filter { it.product.code == code }
-            .toMutableList()
     }
 
     override fun updateOrderList(
@@ -71,16 +63,11 @@ class OrderRepositoryImpl(productRepository: ProductRepository) : OrderRepositor
         listOfOrders: MutableList<ProductOrder>,
         orderId: Int
     ) {
-        (fakeOrdersList.find { it.id == orderId } ?: throw Exception()).productList.removeAll { it.product.code == product.code }
-        (fakeOrdersList.find { it.id == orderId } ?: throw Exception()).productList.addAll(listOfOrders.filter { it.quantity.values.sum() != 0 })
-    }
-
-
-    override fun getOrderDetails(orderId: Int): MutableList<ProductOrder> {
-        return (fakeOrdersList.find { it.id == orderId } ?: throw Exception()).productList
+        getOrderById(orderId).productList.removeAll { it.product.code == product.code }
+        getOrderById(orderId).productList.addAll(listOfOrders.filter { it.quantity.values.sum() != 0 })
     }
 
     override fun removeOrder(productOrder: ProductOrder) {
-        fakeOrdersList[productOrder.orderId].productList.remove(productOrder)
+        getOrderById(productOrder.orderId).productList.remove(productOrder)
     }
 }

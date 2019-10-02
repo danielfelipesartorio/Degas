@@ -8,14 +8,7 @@ interface OrderRepository {
     fun getOrdersList(): MutableList<Order>
     fun addNewOrder(clientName: String)
     fun deleteOrder(order: Order)
-    fun getOrderByClient(orderId: Int): Order
-    fun getOrderDetails(orderId: Int): MutableList<ProductOrder>
-    fun getProductOrdersByProductCode(
-        code: String,
-        orderId: Int
-    ): MutableList<ProductOrder>
-
+    fun getOrderById(orderId: Int): Order
     fun removeOrder(productOrder: ProductOrder)
-
     fun updateOrderList(product: Product, listOfOrders: MutableList<ProductOrder>, orderId: Int)
 }
