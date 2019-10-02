@@ -13,7 +13,7 @@ class OrdersListViewModel(
     val ordersList = MutableLiveData<MutableList<Order>>()
 
     fun getClientNameList(): MutableList<String> {
-        return clientRepository.getClientsList().map { it.companyName }.toMutableList()
+        return clientRepository.getClientsList().map { it.name.companyName }.toMutableList()
     }
 
     fun initViewModel() {

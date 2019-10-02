@@ -7,8 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.sartorio.degas.R
 import com.sartorio.degas.common.statefragment.*
+import com.sartorio.degas.model.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class NewClientActivity : AppCompatActivity(), OnStepConcludedListener {
+
+    private val newClientViewModel: NewClientViewModel by viewModel()
+
     override fun onStepConcluded() {
         if (fragmentFlow.hasNext()) {
             goToNextState(fragmentFlow.getNext())
@@ -22,7 +27,6 @@ class NewClientActivity : AppCompatActivity(), OnStepConcludedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_client)
-
         startFlow()
 
     }
@@ -73,7 +77,18 @@ class NewClientActivity : AppCompatActivity(), OnStepConcludedListener {
     }
 
     private fun onFlowFinished() {
+        newClientViewModel.saveNewClient(mapNewClientData(fragmentFlow))
         finish()
+    }
+
+    private fun mapNewClientData(flow: StateFlow): Client {
+        val data = flow.getDataMap()
+        return Client(
+            name = data[ClientNameFragment::class.java.name] as ClientName,
+            clientAddress = data[ClientAddressFragment::class.java.name] as ClientAddress,
+            contact = data[ClientContactFragment::class.java.name] as ClientContact,
+            documents = data[ClientDocumentsFragment::class.java.name] as ClientDocuments
+        )
     }
 
     companion object {

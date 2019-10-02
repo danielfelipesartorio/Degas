@@ -7,11 +7,12 @@ import com.sartorio.degas.model.ProductOrder
 import java.lang.Exception
 import java.util.*
 
-class OrderRepositoryImpl(productRepository: ProductRepository) : OrderRepository {
+class OrderRepositoryImpl(productRepository: ProductRepository,
+                          private val clientRepository: ClientRepository) : OrderRepository {
 
-    var fakeOrdersList = mutableListOf(
+    private var fakeOrdersList = mutableListOf(
         Order(
-            1, Client("Cliente A"), Date(1546300800000), mutableListOf(
+            1, clientRepository.getClientByName("Cliente A"), Date(1546300800000), mutableListOf(
                 ProductOrder(
                     productRepository.getProductByCode("01.01.0001"),
                     productRepository.getProductByCode("01.01.0001").colors[0],
@@ -21,7 +22,7 @@ class OrderRepositoryImpl(productRepository: ProductRepository) : OrderRepositor
             )
         ),
         Order(
-            2, Client("Cliente B"), Date(1546300800000), mutableListOf(
+            2,clientRepository.getClientByName("Cliente B"), Date(1546300800000), mutableListOf(
                 ProductOrder(
                     productRepository.getProductByCode("01.01.0001"),
                     productRepository.getProductByCode("01.01.0001").colors[1],
@@ -31,7 +32,7 @@ class OrderRepositoryImpl(productRepository: ProductRepository) : OrderRepositor
             )
         ),
         Order(
-            3, Client("Cliente C"), Date(1546300800000), mutableListOf(
+            3, clientRepository.getClientByName("Cliente C"), Date(1546300800000), mutableListOf(
                 ProductOrder(
                     productRepository.getProductByCode("01.01.0002"),
                     productRepository.getProductByCode("01.01.0002").colors[0],
@@ -47,7 +48,7 @@ class OrderRepositoryImpl(productRepository: ProductRepository) : OrderRepositor
     }
 
     override fun addNewOrder(clientName: String) {
-        fakeOrdersList.add(Order(4, Client(clientName), Date()))
+        fakeOrdersList.add(Order((fakeOrdersList.maxBy { it.id }?.id?:0+1), clientRepository.getClientByName(clientName), Date()))
     }
 
     override fun deleteOrder(order: Order) {

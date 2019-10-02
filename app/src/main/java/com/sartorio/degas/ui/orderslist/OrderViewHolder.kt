@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat
 
 class OrderViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
     fun format(order: Order) {
-        view.textViewClientName.text = order.client.companyName
+        view.textViewClientName.text = order.client.name.companyName
         view.textViewOrderDate.text = SimpleDateFormat("dd/MM/yy").format(order.date)
     }
 }

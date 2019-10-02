@@ -11,14 +11,15 @@ import com.sartorio.degas.R
 import com.sartorio.degas.common.statefragment.BaseState
 import com.sartorio.degas.common.statefragment.OnStepConcludedListener
 import com.sartorio.degas.common.statefragment.StateFragment
+import com.sartorio.degas.model.ClientDocuments
 import kotlinx.android.synthetic.main.fragment_client_documents.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class ClientDocumentsFragment : StateFragment() , BaseState<Any> {
-    override fun getData(): Any {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+class ClientDocumentsFragment : StateFragment() , BaseState<ClientDocuments> {
+    override fun getData(): ClientDocuments {
+        return ClientDocuments("cpf","inscrição estadual")
     }
 
     override fun onCreateView(

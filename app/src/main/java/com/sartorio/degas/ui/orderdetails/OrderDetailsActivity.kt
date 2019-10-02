@@ -1,12 +1,19 @@
 package com.sartorio.degas.ui.orderdetails
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.sartorio.degas.R
+import com.sartorio.degas.common.PdfCreatorHelper
 import com.sartorio.degas.model.Order
 import com.sartorio.degas.model.ProductOrder
 import com.sartorio.degas.ui.customcompoents.SearchableDialog
@@ -17,7 +24,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
-import java.util.*
 
 class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
     SearchableDialogClickListener {
@@ -38,13 +44,49 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
         val orderId = intent.getIntExtra(ORDER_ID, 0)
         order = orderDetailsViewModel.getOrderByClient(orderId)
         supportActionBar?.title =
-            "${order.client.companyName} - ${SimpleDateFormat(SIMPLE_DATE_FORMAT).format(order.date)}"
+            "${order.client.name.companyName} - ${SimpleDateFormat(SIMPLE_DATE_FORMAT).format(order.date)}"
         initView()
     }
 
     override fun onResume() {
         orderDetailsViewModel.initViewModel(order.id)
         super.onResume()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.order_details_menu,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.print){
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+                // Permission is not granted
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    // Show an explanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
+                } else {
+                    // No explanation needed, we can request the permission.
+                    ActivityCompat.requestPermissions(this,
+                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        101)
+
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
+            } else {
+                PdfCreatorHelper(this).printPDF()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initView() {
