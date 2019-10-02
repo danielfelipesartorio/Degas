@@ -2,16 +2,19 @@ package com.sartorio.degas.ui.productdetails
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.sartorio.degas.model.Order
 import com.sartorio.degas.model.Product
 import com.sartorio.degas.model.ProductOrder
+import com.sartorio.degas.ui.OrderRepository
 import com.sartorio.degas.ui.ProductRepository
-import java.util.*
 
-class ProductViewModel(private val productRepository: ProductRepository) : ViewModel() {
+class ProductViewModel(
+    private val productRepository: ProductRepository,
+    private val orderRepository: OrderRepository
+) : ViewModel() {
 
     private lateinit var listOfOrders: MutableList<ProductOrder>
-    private lateinit var companyName: String
-    private lateinit var orderDate: Date
+    private lateinit var order: Order
 
     fun plusOne(color: Int, size: String) {
         listOfOrders.find { it.productColor == color }?.plusOne(size)
@@ -23,11 +26,10 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
         productOrders.postValue(listOfOrders)
     }
 
-    fun initViewModel(code: String, companyName: String, orderDate: Date) {
-        this.companyName = companyName
-        this.orderDate = orderDate
+    fun initViewModel(code: String, orderId: Int) {
+        this.order = orderRepository.getOrderByClient(orderId)
         product = productRepository.getProductByCode(code)
-        listOfOrders = productRepository.getProductOrdersByProductCode(code,companyName,orderDate)
+        listOfOrders = orderRepository.getProductOrdersByProductCode(code, orderId)
         getProductOrders()
     }
 
@@ -38,8 +40,7 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
                     ProductOrder(
                         product, color,
                         mutableMapOf(),
-                        companyName,
-                        orderDate
+                        order.id
                     )
                 )
             }
@@ -52,7 +53,7 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
     }
 
     fun saveAlterations() {
-        productRepository.updateOrderList(product, listOfOrders, companyName, orderDate)
+        orderRepository.updateOrderList(product, listOfOrders, order.id)
     }
 
     private lateinit var product: Product

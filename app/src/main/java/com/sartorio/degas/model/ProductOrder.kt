@@ -1,13 +1,10 @@
 package com.sartorio.degas.model
 
-import java.util.*
-
 class ProductOrder(
     val product: Product,
     val productColor: Int,
     var quantity: MutableMap<String, Int>,
-    val clientName: String,
-    val orderDate: Date
+    val orderId: Int
 ) {
 
     fun plusOne(size: String) {

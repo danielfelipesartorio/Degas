@@ -15,26 +15,24 @@ class OrderDetailsViewModel(
 ) : ViewModel() {
 
     val productOrderList = MutableLiveData<MutableList<ProductOrder>>()
-    private lateinit var companyName: String
-    private lateinit var orderDate: Date
 
-    fun initViewModel(companyName: String, date: Date) {
-        this.companyName = companyName
-        this.orderDate = date
-        val order = productRepository.getOrderDetails(companyName, date)
-        productOrderList.postValue(order)
+    private lateinit var order: Order
+
+    fun initViewModel(orderId: Int) {
+        this.order = orderRepository.getOrderByClient(orderId)
+        productOrderList.postValue(order.productList)
     }
 
     fun removeOrder(productOrder: ProductOrder) {
-        productRepository.removeOrder(productOrder)
-        productOrderList.postValue(productRepository.getOrderDetails(companyName, orderDate))
+        orderRepository.removeOrder(productOrder)
+        productOrderList.postValue(orderRepository.getOrderDetails(productOrder.orderId))
     }
 
     fun getProductList(): List<Product> {
         return productRepository.getProductList()
     }
 
-    fun getOrderByClient(companyName: String, date: Date): Order {
-        return orderRepository.getOrderByClient(companyName, date)
+    fun getOrderByClient(orderId : Int): Order {
+        return orderRepository.getOrderByClient(orderId)
     }
 }

@@ -10,9 +10,9 @@ import org.koin.dsl.module
 
 val appModule = module {
     viewModel { OrdersListViewModel(get(), get()) }
-    viewModel { ProductViewModel(get()) }
+    viewModel { ProductViewModel(get(), get()) }
     viewModel { OrderDetailsViewModel(get(), get()) }
     single { ClientRepositoryImpl() as ClientRepository }
-    single { OrderRepositoryImpl() as OrderRepository }
+    single { OrderRepositoryImpl(get()) as OrderRepository }
     single { ProductRepositoryImpl() as ProductRepository }
 }

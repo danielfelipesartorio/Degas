@@ -3,7 +3,8 @@ package com.sartorio.degas.model
 import java.util.*
 
 class Order(
-    val clientName: String,
+    val id: Int,
+    val client: Client,
     val date: Date,
-    var productList: List<Product> = listOf()
+    var productList: MutableList<ProductOrder> = mutableListOf()
 )

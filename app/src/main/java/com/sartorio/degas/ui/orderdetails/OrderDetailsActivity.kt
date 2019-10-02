@@ -30,24 +30,20 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
         SearchableDialog(this, productCodesList, this)
     }
 
-    private lateinit var companyName: String
-    private var date: Long = 0L
     private lateinit var order: Order
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order)
-
-        companyName = (intent.getStringExtra(COMPANY_NAME) ?: return)
-        date = intent.getLongExtra(ORDER_DATE, 0)
-        order = orderDetailsViewModel.getOrderByClient(companyName, Date(date))
+        val orderId = intent.getIntExtra(ORDER_ID, 0)
+        order = orderDetailsViewModel.getOrderByClient(orderId)
         supportActionBar?.title =
-            "${order.clientName} - ${SimpleDateFormat(SIMPLE_DATE_FORMAT).format(order.date)}"
+            "${order.client.companyName} - ${SimpleDateFormat(SIMPLE_DATE_FORMAT).format(order.date)}"
         initView()
     }
 
     override fun onResume() {
-        orderDetailsViewModel.initViewModel(companyName, Date(date))
+        orderDetailsViewModel.initViewModel(order.id)
         super.onResume()
     }
 
@@ -60,7 +56,7 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
                 DividerItemDecoration.VERTICAL
             )
         )
-        orderDetailsViewModel.initViewModel(companyName, Date(date))
+        orderDetailsViewModel.initViewModel(order.id)
     }
 
     private fun setupObservers() {
@@ -86,7 +82,7 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
     }
 
     override fun onClick(productOrder: ProductOrder) {
-        startActivity(ProductActivity.createIntent(this, productOrder.product.code, companyName, Date(date)))
+        startActivity(ProductActivity.createIntent(this, productOrder.product.code, order.id))
     }
 
     override fun onLongPress(productOrder: ProductOrder) {
@@ -94,20 +90,18 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
     }
 
     override fun onListItemClick(item: String) {
-        startActivity(ProductActivity.createIntent(this, item, companyName, Date(date)))
+        startActivity(ProductActivity.createIntent(this, item, order.id))
         productCodeDialog.dismiss()
     }
 
     companion object {
-        const val COMPANY_NAME = "COMPANY_NAME"
-        const val ORDER_DATE = "ORDER_DATE"
+        const val ORDER_ID = "ORDER_ID"
         const val SIMPLE_DATE_FORMAT = "dd/MM/yyyy"
 
         @JvmStatic
-        fun createIntent(context: Context, companyName: String, date: Date): Intent {
+        fun createIntent(context: Context, orderId :Int): Intent {
             val intent = Intent(context, OrderDetailsActivity::class.java)
-            intent.putExtra(COMPANY_NAME, companyName)
-            intent.putExtra(ORDER_DATE, date.time)
+            intent.putExtra(ORDER_ID, orderId)
             return intent
         }
     }
