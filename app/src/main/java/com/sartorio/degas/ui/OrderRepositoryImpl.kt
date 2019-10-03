@@ -48,7 +48,7 @@ class OrderRepositoryImpl(productRepository: ProductRepository,
     }
 
     override fun addNewOrder(clientName: String) {
-        fakeOrdersList.add(Order((fakeOrdersList.maxBy { it.id }?.id?:0+1), clientRepository.getClientByName(clientName), Date()))
+        fakeOrdersList.add(Order(((fakeOrdersList.maxBy { it.id }?.id?:0)+1), clientRepository.getClientByName(clientName), Date()))
     }
 
     override fun deleteOrder(order: Order) {

@@ -1,15 +1,11 @@
 package com.sartorio.degas.ui.orderdetails
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.sartorio.degas.R
@@ -20,8 +16,9 @@ import com.sartorio.degas.ui.customcompoents.SearchableDialog
 import com.sartorio.degas.ui.customcompoents.SearchableDialogClickListener
 import com.sartorio.degas.ui.productdetails.ProductActivity
 import kotlinx.android.synthetic.main.activity_order.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
-
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 
@@ -54,38 +51,17 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.order_details_menu,menu)
+        menuInflater.inflate(R.menu.order_details_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.print){
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-
-                // Permission is not granted
-                // Should we show an explanation?
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    // Show an explanation to the user *asynchronously* -- don't block
-                    // this thread waiting for the user's response! After the user
-                    // sees the explanation, try again to request the permission.
-                } else {
-                    // No explanation needed, we can request the permission.
-                    ActivityCompat.requestPermissions(this,
-                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                        101)
-
-                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                    // app-defined int constant. The callback method gets the
-                    // result of the request.
-                }
-            } else {
-                PdfCreatorHelper(this).printPDF(order)
+        if (item.itemId == R.id.print) {
+            val context = this
+            GlobalScope.launch {
+                PdfCreatorHelper(context).printPDF(order)
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
 
@@ -141,7 +117,7 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
         const val SIMPLE_DATE_FORMAT = "dd/MM/yyyy"
 
         @JvmStatic
-        fun createIntent(context: Context, orderId :Int): Intent {
+        fun createIntent(context: Context, orderId: Int): Intent {
             val intent = Intent(context, OrderDetailsActivity::class.java)
             intent.putExtra(ORDER_ID, orderId)
             return intent

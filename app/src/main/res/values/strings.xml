@@ -4,6 +4,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="bottom_sheet_cash_back_success_desc_partial"><![CDATA[Você descontou <b><font color="#%1$s">%2$s</font></b> da sua fatura usando seu saldo de cashback.<br><br>Continue acumulando cashback para descontar ainda mais até o dia do vencimento.]]></string>
 
 </resources>

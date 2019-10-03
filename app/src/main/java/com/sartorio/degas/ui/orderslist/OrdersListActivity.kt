@@ -24,8 +24,11 @@ class OrdersListActivity : AppCompatActivity(),
 
     private val ordersListViewModel: OrdersListViewModel by viewModel()
 
-    private val clientsDialog: SearchableDialog by lazy {
-        SearchableDialog(this, ordersListViewModel.getClientNameList(), this)
+    private lateinit var clientsDialog: SearchableDialog
+
+    override fun onResume() {
+        clientsDialog =  SearchableDialog(this, ordersListViewModel.getClientNameList(), this)
+        super.onResume()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -6,11 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableField
 
 import com.sartorio.degas.R
 import com.sartorio.degas.common.statefragment.BaseState
 import com.sartorio.degas.common.statefragment.OnStepConcludedListener
 import com.sartorio.degas.common.statefragment.StateFragment
+import com.sartorio.degas.databinding.FragmentClientAddressBinding
 import com.sartorio.degas.model.ClientAddress
 import kotlinx.android.synthetic.main.fragment_client_address.*
 
@@ -22,15 +25,30 @@ class ClientAddressFragment : StateFragment(), BaseState<ClientAddress> {
         return ClientAddress("","","","","")
     }
 
+    private lateinit var fragmentClientAddressBinding: FragmentClientAddressBinding
+    val streetAddress = ObservableField<String>("aaaa")
+    val postCode = ObservableField<String>("aaaa")
+    val district = ObservableField<String>("aaaa")
+    val city = ObservableField<String>("aaaa")
+    val state = ObservableField<String>("aaaa")
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_client_address, container, false)
+        fragmentClientAddressBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_client_address,
+            container,
+            false
+        )
+        return fragmentClientAddressBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        fragmentClientAddressBinding.clientAddressFragment = this
         buttonNext.setOnClickListener {
             notifyStepConcluded()
         }
