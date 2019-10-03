@@ -1,40 +1,70 @@
 package com.sartorio.degas.common
 
-import android.app.Activity
-import android.content.Context
+import android.content.Intent
 import android.os.Environment
 import android.print.PrintAttributes
 import android.print.pdf.PrintedPdfDocument
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.content.FileProvider
+import com.itextpdf.text.Document
+import com.itextpdf.text.List
+import com.itextpdf.text.ListItem
+import com.itextpdf.text.Paragraph
+import com.itextpdf.text.pdf.PdfWriter
 import com.sartorio.degas.R
+import com.sartorio.degas.model.Order
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-
-
+import java.net.URLConnection
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class PdfCreatorHelper(context: AppCompatActivity) {
     private val mContext: AppCompatActivity = context
 
-    fun printPDF() {
+    fun printPDF(order: Order) {
         if (isExternalStorageWritable()) {
-            val filename = getFileName()
-            val file = File(getAlbumStorageDir("PDF"), filename)
+            val filename = getFileName(order)
+            val file = File(mContext.cacheDir, filename)
             try {
                 val outputStream = FileOutputStream(file)
                 createPDF(outputStream)
-                Toast.makeText(mContext, "SUCESSO", Toast.LENGTH_SHORT).show()
+                Toast.makeText(mContext, getFileName(order), Toast.LENGTH_SHORT).show()
+                shareFile(file)
             } catch (e: IOException) {
                 e.printStackTrace()
                 Toast.makeText(mContext, e.message, Toast.LENGTH_LONG).show()
             }
-
         }
+        savePdf(order)
+    }
+
+    private fun shareFile(file: File) {
+
+        val intentShareFile = Intent(Intent.ACTION_SEND)
+        val fileUri = FileProvider.getUriForFile(
+            mContext,
+            "com.sartorio.degas.provider",
+            file
+        )
+
+        intentShareFile.type = URLConnection.guessContentTypeFromName(file.name)
+        intentShareFile.putExtra(
+            Intent.EXTRA_STREAM,
+            fileUri
+        )
+
+        //if you need
+        //intentShareFile.putExtra(Intent.EXTRA_SUBJECT,"Sharing File Subject);
+        //intentShareFile.putExtra(Intent.EXTRA_TEXT, "Sharing File Description");
+
+        startActivity(mContext, Intent.createChooser(intentShareFile, "Share File"), null)
+
     }
 
     /**
@@ -50,9 +80,8 @@ class PdfCreatorHelper(context: AppCompatActivity) {
      * Returns a name for the file that will be created
      * @return String
      */
-    private fun getFileName(): String {
-        //TODO: 06/10/2015
-        return "file2" + ".pdf"
+    private fun getFileName(order: Order): String {
+        return "${order.client.name.companyName} - ${SimpleDateFormat("dd.MM.yyyy").format(order.date)}" + ".pdf"
     }
 
     /**
@@ -87,6 +116,68 @@ class PdfCreatorHelper(context: AppCompatActivity) {
         document.close()
     }
 
+    private fun savePdf(order: Order) {
+        //create object of Document class
+        val mDoc = Document()
+        //pdf file name
+        val mFileName = SimpleDateFormat(
+            "yyyyMMdd_HHmmss",
+            Locale.getDefault()
+        ).format(System.currentTimeMillis())
+        //pdf file path
+        val mFilePath =
+            Environment.getExternalStorageDirectory().toString() + "/" + mFileName + ".pdf"
+
+        try {
+            //create instance of PdfWriter class
+            PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
+            //open the document for writing
+            mDoc.open()
+            //get text from EditText i.e. mTextEt
+
+
+            //add author of the document (optional)
+            mDoc.addAuthor("Atif Pervaiz")
+
+            //add paragraph to the document
+            mDoc.add(Paragraph(order.client.name.companyName))
+            mDoc.add(Paragraph(order.client.name.fantasyName))
+            mDoc.add(Paragraph(order.client.documents.cnpj))
+            mDoc.add(Paragraph(order.client.documents.stateRegistration))
+
+            val list = List(false)
+            var stringSizes = "                      "
+            for (size in order.productList.first().product.sizes) {
+                stringSizes += size + "    "
+            }
+            list.add(stringSizes)
+            order.productList.forEach { productOrder ->
+                var string = ""
+                productOrder.product.sizes.forEach {
+                    string += (productOrder.quantity[it] ?: "0")
+                    string += "    "
+                }
+                list.add(ListItem("" + productOrder.product.code + "    " + productOrder.productColor + "    " + string))
+            }
+
+            mDoc.add(list)
+
+
+            //close the document
+            mDoc.close()
+            //show message that file is saved, it will show file name and file path too
+            Toast.makeText(
+                mContext,
+                mFileName + ".pdf\nis saved to\n" + mFilePath,
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        } catch (e: Exception) {
+            //if any thing goes wrong causing exception, get and show exception message
+            Toast.makeText(mContext, e.message, Toast.LENGTH_SHORT).show()
+        }
+
+    }
 
     private fun getContentView(): View {
         return mContext.findViewById(R.id.pdfLayout)
@@ -97,23 +188,5 @@ class PdfCreatorHelper(context: AppCompatActivity) {
             .setResolution(PrintAttributes.Resolution("res1", "Resolution", 50, 50))
             .setMinMargins(PrintAttributes.Margins(5, 5, 5, 5))
         return builder.build()
-    }
-
-
-    private fun getAlbumStorageDir(albumName: String): File {
-        // Get the directory for the user's public pictures directory.
-        val file = File(
-            Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOCUMENTS
-            ), albumName
-        )
-        if (!file.mkdirs()) {
-            Log.e(LOG_TAG, "Directory not created")
-        }
-        return file
-    }
-
-    companion object {
-        const val LOG_TAG = "Error"
     }
 }

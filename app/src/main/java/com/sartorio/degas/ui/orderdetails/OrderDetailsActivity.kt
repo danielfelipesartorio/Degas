@@ -82,7 +82,7 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
                     // result of the request.
                 }
             } else {
-                PdfCreatorHelper(this).printPDF()
+                PdfCreatorHelper(this).printPDF(order)
             }
         }
 
