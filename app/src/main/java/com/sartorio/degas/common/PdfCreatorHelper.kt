@@ -2,18 +2,12 @@ package com.sartorio.degas.common
 
 import android.content.Intent
 import android.os.Environment
-import android.print.PrintAttributes
-import android.print.pdf.PrintedPdfDocument
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
-import com.itextpdf.text.Document
-import com.itextpdf.text.List
-import com.itextpdf.text.ListItem
-import com.itextpdf.text.Paragraph
-import com.itextpdf.text.pdf.PdfWriter
+import com.itextpdf.text.pdf.PdfReader
+import com.itextpdf.text.pdf.PdfStamper
 import com.sartorio.degas.R
 import com.sartorio.degas.model.Order
 import java.io.File
@@ -21,7 +15,6 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.net.URLConnection
 import java.text.SimpleDateFormat
-import java.util.*
 
 
 class PdfCreatorHelper(context: AppCompatActivity) {
@@ -32,16 +25,53 @@ class PdfCreatorHelper(context: AppCompatActivity) {
             val filename = getFileName(order)
             val file = File(mContext.cacheDir, filename)
             try {
-                val outputStream = FileOutputStream(file)
-                createPDF(outputStream)
-                Toast.makeText(mContext, getFileName(order), Toast.LENGTH_SHORT).show()
+                fillFormPDF(order, FileOutputStream(file))
                 shareFile(file)
             } catch (e: IOException) {
                 e.printStackTrace()
                 Toast.makeText(mContext, e.message, Toast.LENGTH_LONG).show()
             }
         }
-        savePdf(order)
+    }
+
+    private fun fillFormPDF(order: Order, outputStream: FileOutputStream) {
+        val reader = PdfReader(mContext.resources.openRawResource(R.raw.blankform))
+        val stamper = PdfStamper(reader, outputStream)
+        val acroFields = stamper.acroFields
+
+        var codes = ""
+        var color = ""
+        var amountPP = ""
+        var amountP = ""
+        var amountM = ""
+        var amountG = ""
+        var amountGG = ""
+
+
+        acroFields.setField("companyName", order.client.name.companyName)
+        acroFields.setField("fantasyName", order.client.name.fantasyName)
+        acroFields.setField("contactName", order.client.contact.contactName)
+        acroFields.setField("contatctEmail", order.client.contact.email)
+        order.productList.forEach {
+            codes += it.product.code + "\n"
+            color += String.format("%03d", it.productColor) + "\n"
+            amountPP += (it.quantity["PP"] ?: "0").toString() + "\n"
+            amountP += (it.quantity["P"] ?: "0").toString() + "\n"
+            amountM += (it.quantity["M"] ?: "0").toString() + "\n"
+            amountG += (it.quantity["G"] ?: "0").toString() + "\n"
+            amountGG += (it.quantity["GG"] ?: "0").toString() + "\n"
+        }
+
+        acroFields.setField("code", codes)
+        acroFields.setField("color", color)
+        acroFields.setField("amountPP", amountPP)
+        acroFields.setField("amountP", amountP)
+        acroFields.setField("amountM", amountM)
+        acroFields.setField("amountG", amountG)
+        acroFields.setField("amountGG", amountGG)
+
+        stamper.close()
+        reader.close()
     }
 
     private fun shareFile(file: File) {
@@ -84,109 +114,4 @@ class PdfCreatorHelper(context: AppCompatActivity) {
         return "${order.client.name.companyName} - ${SimpleDateFormat("dd.MM.yyyy").format(order.date)}" + ".pdf"
     }
 
-    /**
-     * Creates a PDF document and writes it to external storage using the
-     * received FileOutputStream object
-     * @param outputStream a FileOutputStream object
-     * @throws IOException
-     */
-    @Throws(IOException::class)
-    private fun createPDF(outputStream: FileOutputStream) {
-        val document = PrintedPdfDocument(
-            mContext,
-            getPrintAttributes()
-        )
-
-        // start a page
-        val page = document.startPage(1)
-
-        // draw something on the page
-        val content = getContentView()
-        content.draw(page.canvas)
-
-        // finish the page
-        document.finishPage(page)
-        //. . .
-        // add more pages
-        //. . .
-        // write the document content
-        document.writeTo(outputStream)
-
-        //close the document
-        document.close()
-    }
-
-    private fun savePdf(order: Order) {
-        //create object of Document class
-        val mDoc = Document()
-        //pdf file name
-        val mFileName = SimpleDateFormat(
-            "yyyyMMdd_HHmmss",
-            Locale.getDefault()
-        ).format(System.currentTimeMillis())
-        //pdf file path
-        val mFilePath =
-            Environment.getExternalStorageDirectory().toString() + "/" + mFileName + ".pdf"
-
-        try {
-            //create instance of PdfWriter class
-            PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
-            //open the document for writing
-            mDoc.open()
-            //get text from EditText i.e. mTextEt
-
-
-            //add author of the document (optional)
-            mDoc.addAuthor("Atif Pervaiz")
-
-            //add paragraph to the document
-            mDoc.add(Paragraph(order.client.name.companyName))
-            mDoc.add(Paragraph(order.client.name.fantasyName))
-            mDoc.add(Paragraph(order.client.documents.cnpj))
-            mDoc.add(Paragraph(order.client.documents.stateRegistration))
-
-            val list = List(false)
-            var stringSizes = "                      "
-            for (size in order.productList.first().product.sizes) {
-                stringSizes += size + "    "
-            }
-            list.add(stringSizes)
-            order.productList.forEach { productOrder ->
-                var string = ""
-                productOrder.product.sizes.forEach {
-                    string += (productOrder.quantity[it] ?: "0")
-                    string += "    "
-                }
-                list.add(ListItem("" + productOrder.product.code + "    " + productOrder.productColor + "    " + string))
-            }
-
-            mDoc.add(list)
-
-
-            //close the document
-            mDoc.close()
-            //show message that file is saved, it will show file name and file path too
-            Toast.makeText(
-                mContext,
-                mFileName + ".pdf\nis saved to\n" + mFilePath,
-                Toast.LENGTH_SHORT
-            )
-                .show()
-        } catch (e: Exception) {
-            //if any thing goes wrong causing exception, get and show exception message
-            Toast.makeText(mContext, e.message, Toast.LENGTH_SHORT).show()
-        }
-
-    }
-
-    private fun getContentView(): View {
-        return mContext.findViewById(R.id.pdfLayout)
-    }
-
-    private fun getPrintAttributes(): PrintAttributes {
-        val builder = PrintAttributes.Builder().setMediaSize(PrintAttributes.MediaSize.ISO_A4)
-            .setResolution(PrintAttributes.Resolution("res1", "Resolution", 50, 50))
-            .setMinMargins(PrintAttributes.Margins(5, 5, 5, 5))
-        return builder.build()
-    }
 }
