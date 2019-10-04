@@ -2,46 +2,60 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/textViewSizeLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:textColor="@color/white"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:padding="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="P"/>
-    <androidx.appcompat.widget.AppCompatImageButton
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="P" />
+
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageButtonRemove"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/textViewSizeLabel"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/background_dark_ripple"
+        android:src="@drawable/ic_chevron_left_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/textViewAmountValue"
-        android:src="@drawable/ic_chevron_left_black_24dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewSizeLabel" />
+
     <TextView
         android:id="@+id/textViewAmountValue"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/textViewSizeLabel"
-        app:layout_constraintStart_toEndOf="@id/imageButtonRemove"
-        app:layout_constraintEnd_toStartOf="@id/imageButtonAdd"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="center"
-        tools:text="0"/>
-
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/imageButtonAdd"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/textViewSizeLabel"
-        app:layout_constraintStart_toEndOf="@id/textViewAmountValue"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@drawable/ic_chevron_right_black_24dp"/>
+        app:layout_constraintEnd_toStartOf="@id/imageButtonAdd"
+        app:layout_constraintStart_toEndOf="@id/imageButtonRemove"
+        app:layout_constraintTop_toBottomOf="@id/textViewSizeLabel"
+        tools:text="0" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageButtonAdd"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/background_dark_ripple"
+        android:src="@drawable/ic_chevron_right_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textViewAmountValue"
+        app:layout_constraintTop_toBottomOf="@id/textViewSizeLabel" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,58 +4,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/pdfLayout"
     tools:context=".ui.orderdetails.OrderDetailsActivity">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/textViewProductCodeLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewOrderDetails">
-
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Referencia"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="QTD"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/textViewOrderDetails"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:background="@color/colorAccent"
+        android:padding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textViewOrderCost"
-            android:layout_width="wrap_content"
+            android:id="@+id/textViewOrderCostLabel"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Referencia"
+            android:gravity="center"
+            android:text="Valor Total"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/textViewOrderAmountLabel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textViewOrderAmount"
-            android:layout_width="wrap_content"
+            android:id="@+id/textViewOrderAmountLabel"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="QTD"
+            android:gravity="center"
+            android:text="Quantidade de peças"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textViewOrderCostLabel"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewOrderCost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/textViewOrderAmount"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewOrderCostLabel"
+            tools:text="$120.00" />
+
+        <TextView
+            android:id="@+id/textViewOrderAmount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textViewOrderCost"
+            app:layout_constraintTop_toBottomOf="@id/textViewOrderAmountLabel"
+            tools:text="12" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -64,12 +73,11 @@
         android:id="@+id/recyclerViewProductList"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="15dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewProductCodeLabel"
+        app:layout_constraintTop_toBottomOf="@id/textViewOrderDetails"
         tools:listitem="@layout/product_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -5,6 +5,6 @@
         android:title="Novo cliente"
         android:id="@+id/newClient"
         app:showAsAction="always"
-        android:icon="@drawable/ic_add_black_24dp"/>
+        android:icon="@drawable/ic_person_add_white_24dp"/>
 
 </menu>

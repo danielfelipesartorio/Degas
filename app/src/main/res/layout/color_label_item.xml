@@ -5,8 +5,13 @@
     android:layout_height="match_parent"
     android:gravity="center"
     tools:text="100"
+    android:textSize="24sp"
+    android:textStyle="bold"
+    android:padding="16dp"
+    android:textColor="@color/white"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorPrimaryDark"
     android:layout_margin="5dp">
 
 </TextView>

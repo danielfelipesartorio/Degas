@@ -5,21 +5,43 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@drawable/background_dark_ripple">
     <TextView
         android:id="@+id/textViewProductCode"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/textViewProductColor"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text = "01.01.0001"/>
     <TextView
-        android:id="@+id/textViewProductAmount"
-        android:layout_width="wrap_content"
+        android:id="@+id/textViewProductColor"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/textViewProductCode"
+        app:layout_constraintEnd_toStartOf="@id/textViewProductAmount"
         app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
+        tools:text = "001"/>
+    <TextView
+        android:id="@+id/textViewProductAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/textViewProductColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="end"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="01"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

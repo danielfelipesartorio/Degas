@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import com.sartorio.degas.R
 import com.sartorio.degas.model.ProductOrder
 import kotlinx.android.synthetic.main.activity_product.*
@@ -25,6 +26,7 @@ class ProductActivity : AppCompatActivity(), ProductClickListener {
 
     private lateinit var productCode: String
     private var orderId: Int = 0
+    private lateinit var adapter :ProductOrderColorAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,7 @@ class ProductActivity : AppCompatActivity(), ProductClickListener {
     private fun initView() {
         setupListeners()
         setupObservers()
+        recyclerViewProductOrderColorList.layoutManager = GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false)
         recyclerViewProductOrderColorList.addItemDecoration(
             DividerItemDecoration(
                 this,
@@ -62,8 +65,12 @@ class ProductActivity : AppCompatActivity(), ProductClickListener {
     }
 
     private fun setupAdapter(productOrder: List<ProductOrder>) {
-        recyclerViewProductOrderColorList.adapter =
-            ProductOrderColorAdapter(productViewModel.getProduct(), productOrder, this)
+        if (::adapter.isInitialized){
+            adapter.notifyDataSetChanged()
+        }else {
+            adapter = ProductOrderColorAdapter(productViewModel.getProduct(), productOrder, this)
+            recyclerViewProductOrderColorList.adapter = adapter
+        }
     }
 
     companion object {

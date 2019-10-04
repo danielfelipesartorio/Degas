@@ -9,10 +9,13 @@ import com.sartorio.degas.model.ProductOrder
 
 class ProductOrderColorAdapter(
     private val product: Product,
-    private val productOrder: List<ProductOrder>,
+    productOrder: List<ProductOrder>,
     private val listener: ProductClickListener
 ) :
     RecyclerView.Adapter<ProductOrderColorViewHolder>() {
+
+    private var dataSet: List<ProductOrder> = productOrder
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductOrderColorViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val linearLayout =
@@ -25,7 +28,7 @@ class ProductOrderColorAdapter(
     }
 
     override fun onBindViewHolder(holder: ProductOrderColorViewHolder, position: Int) {
-        val productOrder = productOrder.find { it.productColor == product.colors[position] } ?: return
+        val productOrder = dataSet.find { it.productColor == product.colors[position] } ?: return
         holder.format(product, productOrder, position, listener)
     }
 
