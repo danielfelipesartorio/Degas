@@ -34,6 +34,7 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
     }
 
     private lateinit var order: Order
+    private lateinit var adapter: ProductAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,9 +89,12 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
     }
 
     private fun setupAdapter(list: MutableList<ProductOrder>) {
-
-        recyclerViewProductList.adapter =
-            ProductAdapter(list, this)
+        if (::adapter.isInitialized) {
+            adapter.notifyDataSetChanged()
+        } else {
+            adapter = ProductAdapter(list, this)
+            recyclerViewProductList.adapter = adapter
+        }
     }
 
     private fun setupListeners() {

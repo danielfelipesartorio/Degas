@@ -10,7 +10,7 @@ class ProductRepositoryImpl : ProductRepository {
         Product("01.01.0002", listOf(150, 200), listOf("P", "M", "G"), 10.0),
         Product("01.01.0003", listOf(100, 200), listOf("P", "M", "G"), 10.0),
         Product("01.01.0004", listOf(1, 15), listOf("P", "M", "G"), 10.0),
-        Product("01.01.0005", listOf(1, 2, 3, 4, 5, 6, 7, 8), listOf("P", "M", "G"), 10.0),
+        Product("01.01.0005", listOf(1, 2, 3, 4, 5, 6, 7, 8), listOf("P", "M", "G", "GG"), 10.0),
         Product(
             "01.01.0006",
             listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
