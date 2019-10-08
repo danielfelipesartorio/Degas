@@ -20,7 +20,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-        <activity android:name=".ui.newclient.NewClientActivity"></activity>
+        <activity android:name=".ui.newclient.NewClientActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".ui.splash.SplashScreenActivity"
             android:screenOrientation="portrait"
@@ -32,8 +33,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.productdetails.ProductActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.orderdetails.OrderDetailsActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.orderslist.OrdersListActivity"

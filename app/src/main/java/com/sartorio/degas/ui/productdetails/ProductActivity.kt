@@ -38,7 +38,13 @@ class ProductActivity : AppCompatActivity(), ProductClickListener {
         initView()
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
+
     private fun initView() {
+        setupToolbar()
         setupListeners()
         setupObservers()
         recyclerViewProductOrderColorList.layoutManager = GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false)
@@ -49,6 +55,11 @@ class ProductActivity : AppCompatActivity(), ProductClickListener {
             )
         )
         productViewModel.initViewModel(productCode, orderId)
+    }
+
+    private fun setupToolbar() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = productCode
     }
 
     private fun setupObservers() {

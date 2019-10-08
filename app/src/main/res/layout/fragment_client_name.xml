@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
             name="clientNameFragment"
             type="com.sartorio.degas.ui.newclient.ClientNameFragment" />
@@ -11,46 +13,73 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.newclient.ClientNameFragment"
-        android:layout_margin="20dp">
+        tools:context=".ui.newclient.ClientNameFragment">
 
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/companyNameLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Razão Social"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/buttonNext"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={clientNameFragment.companyName}"/>
+                android:padding="20dp">
 
-        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fantasyNameLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Nome Fantasia"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/companyNameLayout">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/companyNameLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Razão Social"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@={clientNameFragment.fantasyName}"/>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextCompanyName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:nextFocusDown="@id/editTextFantasyName"
+                        android:singleLine="true"
+                        android:text="@={clientNameFragment.companyName}" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/fantasyNameLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:hint="Nome Fantasia"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/companyNameLayout">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/editTextFantasyName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:text="@={clientNameFragment.fantasyName}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:background="@drawable/button_background"
             android:id="@+id/buttonNext"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_margin="20dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:layout_height="wrap_content"
+            android:enabled="@{clientNameFragment.dataValid}"
             android:text="Continuar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

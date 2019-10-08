@@ -2,31 +2,28 @@ package com.sartorio.degas.ui.newclient
 
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
-import androidx.fragment.app.Fragment
 import com.sartorio.degas.R
+import com.sartorio.degas.common.SimpleTextWatcher
 import com.sartorio.degas.common.statefragment.BaseState
 import com.sartorio.degas.common.statefragment.OnStepConcludedListener
 import com.sartorio.degas.common.statefragment.StateFragment
 import com.sartorio.degas.databinding.FragmentClientNameBinding
 import com.sartorio.degas.model.ClientName
-import kotlinx.android.synthetic.main.fragment_client_name.*
-import org.koin.android.viewmodel.ext.android.viewModel
 
-/**
- * A simple [Fragment] subclass.
- */
 class ClientNameFragment : StateFragment(), BaseState<ClientName> {
     override fun getData(): ClientName {
         return ClientName(companyName.get() ?: "", fantasyName.get() ?: "")
     }
 
-    val companyName = ObservableField<String>("aaaa")
-    val fantasyName = ObservableField<String>("aaaa")
+    val companyName = ObservableField<String>()
+    val fantasyName = ObservableField<String>()
+    val dataValid = ObservableField<Boolean>()
     private lateinit var fragmentClientNameBinding: FragmentClientNameBinding
 
     override fun onCreateView(
@@ -45,10 +42,31 @@ class ClientNameFragment : StateFragment(), BaseState<ClientName> {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fragmentClientNameBinding.clientNameFragment = this
-        buttonNext.setOnClickListener {
-            notifyStepConcluded()
+        fragmentClientNameBinding.apply {
+            clientNameFragment = this@ClientNameFragment
+            buttonNext.setOnClickListener {
+                notifyStepConcluded()
+            }
+            editTextCompanyName.addTextChangedListener(object :
+                SimpleTextWatcher {
+                override fun afterTextChanged(p0: Editable?) {
+                    validateData()
+                }
+            })
+            editTextFantasyName.addTextChangedListener(object :
+                SimpleTextWatcher {
+                override fun afterTextChanged(p0: Editable?) {
+                    validateData()
+                }
+            })
         }
+    }
+
+    private fun validateData() {
+        dataValid.set(
+            (companyName.get()?.isNotBlank() ?: false) and
+                    (fantasyName.get()?.isNotBlank() ?: false)
+        )
     }
 
     companion object {
@@ -58,6 +76,4 @@ class ClientNameFragment : StateFragment(), BaseState<ClientName> {
             }
         }
     }
-
-
 }

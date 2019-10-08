@@ -27,8 +27,13 @@ class NewClientActivity : AppCompatActivity(), OnStepConcludedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_client)
+        setupToolbar()
         startFlow()
+    }
 
+    private fun setupToolbar() {
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.title = "Cadastro de novo cliente"
     }
 
     override fun onBackPressed() {

@@ -1,5 +1,6 @@
 package com.sartorio.degas.ui.orderdetails
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -26,6 +27,12 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
     SearchableDialogClickListener {
 
     private val orderDetailsViewModel: OrderDetailsViewModel by viewModel()
+    private val dialog: AlertDialog by lazy {
+            AlertDialog.Builder(this,R.style.TransparentDialog).apply {
+                setView(R.layout.loading_dialog)
+            }.create()
+    }
+
 
     private val productCodeDialog: SearchableDialog by lazy {
         val productCodesList =
@@ -41,8 +48,6 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
         setContentView(R.layout.activity_order)
         val orderId = intent.getIntExtra(ORDER_ID, 0)
         order = orderDetailsViewModel.getOrderByClient(orderId)
-        supportActionBar?.title =
-            "${order.client.name.companyName} - ${SimpleDateFormat(SIMPLE_DATE_FORMAT).format(order.date)}"
         initView()
     }
 
@@ -59,14 +64,22 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.print) {
             val context = this
+            dialog.show()
             GlobalScope.launch {
                 PdfCreatorHelper(context).printPDF(order)
+                context.dialog.dismiss()
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
+
     private fun initView() {
+        setupToolbar()
         setupListeners()
         setupObservers()
         recyclerViewProductList.addItemDecoration(
@@ -76,6 +89,12 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
             )
         )
         orderDetailsViewModel.initViewModel(order.id)
+    }
+
+    private fun setupToolbar() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title =
+            "${order.client.name.companyName} - ${SimpleDateFormat(SIMPLE_DATE_FORMAT).format(order.date)}"
     }
 
     private fun setupObservers() {

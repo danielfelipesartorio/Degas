@@ -2,6 +2,7 @@ package com.sartorio.degas.ui.newclient
 
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +10,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import com.sartorio.degas.R
+import com.sartorio.degas.common.SimpleTextWatcher
 import com.sartorio.degas.common.statefragment.BaseState
 import com.sartorio.degas.common.statefragment.OnStepConcludedListener
 import com.sartorio.degas.common.statefragment.StateFragment
 import com.sartorio.degas.databinding.FragmentClientContactBinding
 import com.sartorio.degas.model.ClientContact
-import kotlinx.android.synthetic.main.fragment_client_contact.*
 
 /**
  * A simple [Fragment] subclass.
@@ -25,10 +26,11 @@ class ClientContactFragment : StateFragment(), BaseState<ClientContact> {
     }
 
     private lateinit var fragmentClientContactBinding: FragmentClientContactBinding
-    val contactName = ObservableField<String>("aaaa")
-    val email = ObservableField<String>("aaaa")
-    val telephone = ObservableField<String>("aaaa")
-    val cellphone = ObservableField<String>("aaaa")
+    val contactName = ObservableField<String>()
+    val email = ObservableField<String>()
+    val telephone = ObservableField<String>()
+    val cellphone = ObservableField<String>()
+    val dataValid = ObservableField<Boolean>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,11 +47,46 @@ class ClientContactFragment : StateFragment(), BaseState<ClientContact> {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        fragmentClientContactBinding.clientContactFragment = this
-        buttonNext.setOnClickListener {
-            notifyStepConcluded()
+        fragmentClientContactBinding.apply {
+            clientContactFragment = this@ClientContactFragment
+            buttonNext.setOnClickListener {
+                notifyStepConcluded()
+            }
+            editTextContactName.addTextChangedListener(object :
+                SimpleTextWatcher {
+                override fun afterTextChanged(p0: Editable?) {
+                    validateData()
+                }
+            })
+            editTextEmail.addTextChangedListener(object :
+                SimpleTextWatcher {
+                override fun afterTextChanged(p0: Editable?) {
+                    validateData()
+                }
+            })
+            editTextTelephone.addTextChangedListener(object :
+                SimpleTextWatcher {
+                override fun afterTextChanged(p0: Editable?) {
+                    validateData()
+                }
+            })
+            editTextCellphone.addTextChangedListener(object :
+                SimpleTextWatcher {
+                override fun afterTextChanged(p0: Editable?) {
+                    validateData()
+                }
+            })
         }
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun validateData() {
+        dataValid.set(
+            (contactName.get()?.isNotBlank() ?: false) and
+                    (email.get()?.isNotBlank() ?: false) and
+                    (telephone.get()?.isNotBlank() ?: false) and
+                    (cellphone.get()?.isNotBlank() ?: false)
+        )
     }
 
     companion object {
