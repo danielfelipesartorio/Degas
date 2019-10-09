@@ -1,7 +1,6 @@
 package com.sartorio.degas.common
 
 import android.widget.TextView
-import java.lang.NumberFormatException
 
 fun TextView.addOne() {
     try {

@@ -1,10 +1,8 @@
 package com.sartorio.degas.ui
 
-import com.sartorio.degas.model.Client
 import com.sartorio.degas.model.Order
 import com.sartorio.degas.model.Product
 import com.sartorio.degas.model.ProductOrder
-import java.lang.Exception
 import java.util.*
 
 class OrderRepositoryImpl(
