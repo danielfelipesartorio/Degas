@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import com.sartorio.degas.R
+import com.sartorio.degas.common.MaskTextChangedListener
 import com.sartorio.degas.common.SimpleTextWatcher
 import com.sartorio.degas.common.statefragment.BaseState
 import com.sartorio.degas.common.statefragment.OnStepConcludedListener
@@ -22,7 +23,12 @@ import com.sartorio.degas.model.ClientContact
  */
 class ClientContactFragment : StateFragment(), BaseState<ClientContact> {
     override fun getData(): ClientContact {
-        return ClientContact("", "", "", "")
+        return ClientContact(
+            contactName.get() ?: "",
+            email.get() ?: "",
+            telephone.get() ?: "",
+            cellphone.get() ?: ""
+        )
     }
 
     private lateinit var fragmentClientContactBinding: FragmentClientContactBinding
@@ -53,29 +59,41 @@ class ClientContactFragment : StateFragment(), BaseState<ClientContact> {
                 notifyStepConcluded()
             }
             editTextContactName.addTextChangedListener(object :
-                SimpleTextWatcher {
+                SimpleTextWatcher() {
                 override fun afterTextChanged(p0: Editable?) {
                     validateData()
                 }
             })
             editTextEmail.addTextChangedListener(object :
-                SimpleTextWatcher {
+                SimpleTextWatcher() {
                 override fun afterTextChanged(p0: Editable?) {
                     validateData()
                 }
             })
             editTextTelephone.addTextChangedListener(object :
-                SimpleTextWatcher {
+                SimpleTextWatcher() {
                 override fun afterTextChanged(p0: Editable?) {
                     validateData()
                 }
             })
+            editTextTelephone.addTextChangedListener(
+                MaskTextChangedListener(
+                    "(##) ####-####",
+                    editTextTelephone
+                )
+            )
             editTextCellphone.addTextChangedListener(object :
-                SimpleTextWatcher {
+                SimpleTextWatcher() {
                 override fun afterTextChanged(p0: Editable?) {
                     validateData()
                 }
             })
+            editTextCellphone.addTextChangedListener(
+                MaskTextChangedListener(
+                    "(##) #####-####",
+                    editTextCellphone
+                )
+            )
         }
         super.onViewCreated(view, savedInstanceState)
     }

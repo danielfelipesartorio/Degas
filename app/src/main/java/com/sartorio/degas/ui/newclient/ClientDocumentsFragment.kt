@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import com.sartorio.degas.R
+import com.sartorio.degas.common.MaskTextChangedListener
 import com.sartorio.degas.common.SimpleTextWatcher
 import com.sartorio.degas.common.statefragment.BaseState
 import com.sartorio.degas.common.statefragment.OnStepConcludedListener
@@ -22,7 +23,7 @@ import com.sartorio.degas.model.ClientDocuments
  */
 class ClientDocumentsFragment : StateFragment(), BaseState<ClientDocuments> {
     override fun getData(): ClientDocuments {
-        return ClientDocuments("cpf", "inscrição estadual")
+        return ClientDocuments(cnpj.get() ?: "", stateRegistration.get() ?: "")
     }
 
 
@@ -51,12 +52,18 @@ class ClientDocumentsFragment : StateFragment(), BaseState<ClientDocuments> {
             buttonNext.setOnClickListener {
                 notifyStepConcluded()
             }
-            editTextCnpj.addTextChangedListener(object : SimpleTextWatcher {
+            editTextCnpj.addTextChangedListener(object : SimpleTextWatcher() {
                 override fun afterTextChanged(p0: Editable?) {
                     validateData()
                 }
             })
-            editTextStateRegistration.addTextChangedListener(object : SimpleTextWatcher {
+            editTextCnpj.addTextChangedListener(
+                MaskTextChangedListener(
+                    "(##) #####-####",
+                    editTextCnpj
+                )
+            )
+            editTextStateRegistration.addTextChangedListener(object : SimpleTextWatcher() {
                 override fun afterTextChanged(p0: Editable?) {
                     validateData()
                 }

@@ -9,8 +9,7 @@
     <color name="black__80">#CC000000</color>
     <color name="grey_30">#4d4d4d</color>
     <color name="transparent">#00000000</color>
-</resources>
-    <!--
+</resources><!--
         Opacity -> Hexa
 
         100% — FF

@@ -10,8 +10,8 @@
     <TextView
         android:id="@+id/textViewSizeLabel"
         android:layout_width="0dp"
-        android:gravity="center"
         android:layout_height="wrap_content"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,8 +21,8 @@
         android:id="@+id/imageButtonRemove"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:scaleType="centerCrop"
         android:background="@drawable/background_dark_ripple"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_chevron_left_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/textViewAmountValue"
@@ -46,14 +46,13 @@
         android:id="@+id/imageButtonAdd"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:scaleType="centerCrop"
         android:background="@drawable/background_dark_ripple"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_chevron_right_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/textViewAmountValue"
         app:layout_constraintTop_toBottomOf="@id/textViewSizeLabel" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

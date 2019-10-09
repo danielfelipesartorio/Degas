@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sartorio.degas">
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".MyApplication"
@@ -20,8 +22,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-        <activity android:name=".ui.newclient.NewClientActivity"
-            android:windowSoftInputMode="adjustResize"/>
+
+        <activity
+            android:name=".ui.newclient.NewClientActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.splash.SplashScreenActivity"
             android:screenOrientation="portrait"
@@ -32,12 +36,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.productdetails.ProductActivity"
+        <activity
+            android:name=".ui.productdetails.ProductActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.orderdetails.OrderDetailsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.orderslist.OrdersListActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.orderdetails.OrderDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.orderslist.OrdersListActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

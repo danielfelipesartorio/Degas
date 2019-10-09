@@ -53,7 +53,7 @@ class NewClientActivity : AppCompatActivity(), OnStepConcludedListener {
         fragmentFlow = StateFlow.Builder()
             .withInitialRoute(
                 state = nameFragment,
-                nextState = documentsFragment
+                nextState = addressFragment
             )
             .withRoute(
                 state = documentsFragment,

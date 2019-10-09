@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:title="Novo cliente"
         android:id="@+id/newClient"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_person_add_white_24dp"/>
+        android:icon="@drawable/ic_person_add_white_24dp"
+        android:title="Novo cliente"
+        app:showAsAction="always" />
 
 </menu>

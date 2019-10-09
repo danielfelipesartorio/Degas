@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView android:id="@+id/textViewColorLabel"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/textViewColorLabel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:background="@color/colorPrimaryDark"
     android:gravity="center"
-    tools:text="100"
-    android:textSize="24sp"
-    android:textStyle="bold"
+    android:orientation="vertical"
     android:padding="16dp"
     android:textColor="@color/white"
-    android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorPrimaryDark"
-    android:layout_margin="5dp">
+    android:textSize="24sp"
+    android:textStyle="bold"
+    tools:text="100">
 
 </TextView>

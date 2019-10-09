@@ -26,7 +26,7 @@ class ProductOrderColorViewHolder(private val view: View) : RecyclerView.ViewHol
             val itemView = inflater.inflate(R.layout.product_size_item, null)
             view.layout.addView(itemView)
             itemView.textViewSizeLabel.text = size
-            itemView.textViewAmountValue.text = (productOrder.quantity[size]?: "0").toString()
+            itemView.textViewAmountValue.text = (productOrder.quantity[size] ?: "0").toString()
             itemView.imageButtonAdd.setOnClickListener {
                 listener.plusOne(product.colors[position], size)
             }

@@ -48,13 +48,13 @@ class ClientNameFragment : StateFragment(), BaseState<ClientName> {
                 notifyStepConcluded()
             }
             editTextCompanyName.addTextChangedListener(object :
-                SimpleTextWatcher {
+                SimpleTextWatcher() {
                 override fun afterTextChanged(p0: Editable?) {
                     validateData()
                 }
             })
             editTextFantasyName.addTextChangedListener(object :
-                SimpleTextWatcher {
+                SimpleTextWatcher() {
                 override fun afterTextChanged(p0: Editable?) {
                     validateData()
                 }

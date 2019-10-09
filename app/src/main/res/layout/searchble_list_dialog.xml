@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/LinearLayout01"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="fill_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout01"
     android:layout_width="200dip"
-    android:orientation="vertical"
-    android:gravity="center">
-    <EditText android:id="@+id/EditBox"
-        android:maxLines="1"
-        android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/EditBox"
         android:layout_width="180dip"
-        android:gravity="start">
-    </EditText>
-    <ListView android:id="@+id/List"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:maxLines="1"></EditText>
+
+    <ListView
+        android:id="@+id/List"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:choiceMode="singleChoice">
-    </ListView>
+        android:choiceMode="singleChoice"></ListView>
 </LinearLayout>

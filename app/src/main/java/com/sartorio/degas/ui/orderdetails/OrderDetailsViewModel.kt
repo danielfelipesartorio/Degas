@@ -31,7 +31,7 @@ class OrderDetailsViewModel(
         return productRepository.getProductList()
     }
 
-    fun getOrderByClient(orderId : Int): Order {
+    fun getOrderByClient(orderId: Int): Order {
         return orderRepository.getOrderById(orderId)
     }
 }

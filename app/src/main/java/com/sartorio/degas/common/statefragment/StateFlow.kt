@@ -37,13 +37,13 @@ class StateFlow {
     }
 
     fun getDataList(): List<*> {
-        return states.values.map {stateRoute ->
+        return states.values.map { stateRoute ->
             stateRoute.state.getData()
         }
     }
 
     fun getDataMap(): Map<String, *> {
-        return states.mapValues {entry ->
+        return states.mapValues { entry ->
             entry.value.state.getData()
         }
     }

@@ -3,10 +3,13 @@ package com.sartorio.degas.ui.orderslist
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sartorio.degas.model.Order
 import com.sartorio.degas.R
+import com.sartorio.degas.model.Order
 
-class OrdersAdapter(private val orderList: List<Order>, private val listener: OrderListClickListener) : RecyclerView.Adapter<OrderViewHolder>() {
+class OrdersAdapter(
+    private val orderList: List<Order>,
+    private val listener: OrderListClickListener
+) : RecyclerView.Adapter<OrderViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return OrderViewHolder(

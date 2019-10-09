@@ -2,6 +2,7 @@ package com.sartorio.degas
 
 import android.app.Application
 import com.sartorio.degas.common.appModule
+import com.sartorio.degas.common.netWorkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -9,10 +10,15 @@ import org.koin.core.context.startKoin
 class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        startKoin{
+        startKoin {
             androidLogger()
             androidContext(this@MyApplication)
-            modules(appModule)
+            modules(
+                listOf(
+                    appModule,
+                    netWorkModule
+                )
+            )
         }
     }
 }

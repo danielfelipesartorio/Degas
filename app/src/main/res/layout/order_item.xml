@@ -2,27 +2,28 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="20dp"
-    android:paddingEnd="20dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
+    android:background="@drawable/background_dark_ripple"
     android:clickable="true"
     android:focusable="true"
-    android:background="@drawable/background_dark_ripple">
+    android:orientation="vertical"
+    android:paddingStart="20dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="10dp">
+
     <TextView
         android:id="@+id/textViewClientName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textStyle="bold"
         android:textSize="16dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/textViewOrderDate"
-        tools:text="Cliente A"
-       />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Cliente A" />
+
     <TextView
         android:id="@+id/textViewOrderDate"
         android:layout_width="wrap_content"
@@ -30,6 +31,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewClientName"
-        tools:text="01/01/19"/>
+        tools:text="01/01/19" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

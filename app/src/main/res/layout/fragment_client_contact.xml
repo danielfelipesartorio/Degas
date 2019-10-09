@@ -31,8 +31,8 @@
                     android:id="@+id/contactNameLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Nome do contato"
                     android:layout_marginTop="20dp"
+                    android:hint="Nome do contato"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -42,6 +42,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
+                        android:inputType="text"
                         android:nextFocusDown="@id/editTextEmail"
                         android:singleLine="true"
                         android:text="@={clientContactFragment.contactName}" />
@@ -63,6 +64,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
                         android:nextFocusDown="@id/editTextTelephone"
                         android:singleLine="true"
                         android:text="@={clientContactFragment.email}" />
@@ -73,8 +75,8 @@
                     android:id="@+id/telephoneLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Telefone"
                     android:layout_marginTop="20dp"
+                    android:hint="Telefone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/emailLayout">
@@ -82,10 +84,11 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextTelephone"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
+                        android:inputType="phone"
                         android:nextFocusDown="@id/editTextCellphone"
                         android:singleLine="true"
-                        android:layout_height="wrap_content"
                         android:text="@={clientContactFragment.telephone}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -94,8 +97,8 @@
                     android:id="@+id/cellphoneLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Celular"
                     android:layout_marginTop="20dp"
+                    android:hint="Celular"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/telephoneLayout">
@@ -103,9 +106,10 @@
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/editTextCellphone"
                         android:layout_width="match_parent"
-                        android:imeOptions="actionDone"
-                        android:singleLine="true"
                         android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:inputType="phone"
+                        android:singleLine="true"
                         android:text="@={clientContactFragment.cellphone}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -114,19 +118,18 @@
         </androidx.core.widget.NestedScrollView>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:background="@drawable/button_background"
             android:id="@+id/buttonNext"
             android:layout_width="0dp"
-            android:layout_margin="20dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/button_background"
             android:enabled="@{clientContactFragment.dataValid}"
             android:text="Continuar"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

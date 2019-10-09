@@ -7,8 +7,10 @@ import com.sartorio.degas.model.ProductOrder
 import java.lang.Exception
 import java.util.*
 
-class OrderRepositoryImpl(productRepository: ProductRepository,
-                          private val clientRepository: ClientRepository) : OrderRepository {
+class OrderRepositoryImpl(
+    productRepository: ProductRepository,
+    private val clientRepository: ClientRepository
+) : OrderRepository {
 
     private var fakeOrdersList = mutableListOf(
         Order(
@@ -22,7 +24,7 @@ class OrderRepositoryImpl(productRepository: ProductRepository,
             )
         ),
         Order(
-            2,clientRepository.getClientByName("Cliente B"), Date(1546300800000), mutableListOf(
+            2, clientRepository.getClientByName("Cliente B"), Date(1546300800000), mutableListOf(
                 ProductOrder(
                     productRepository.getProductByCode("01.01.0001"),
                     productRepository.getProductByCode("01.01.0001").colors[1],
@@ -48,7 +50,13 @@ class OrderRepositoryImpl(productRepository: ProductRepository,
     }
 
     override fun addNewOrder(clientName: String) {
-        fakeOrdersList.add(Order(((fakeOrdersList.maxBy { it.id }?.id?:0)+1), clientRepository.getClientByName(clientName), Date()))
+        fakeOrdersList.add(
+            Order(
+                ((fakeOrdersList.maxBy { it.id }?.id ?: 0) + 1),
+                clientRepository.getClientByName(clientName),
+                Date()
+            )
+        )
     }
 
     override fun deleteOrder(order: Order) {

@@ -26,7 +26,7 @@ class ProductActivity : AppCompatActivity(), ProductClickListener {
 
     private lateinit var productCode: String
     private var orderId: Int = 0
-    private lateinit var adapter :ProductOrderColorAdapter
+    private lateinit var adapter: ProductOrderColorAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +47,8 @@ class ProductActivity : AppCompatActivity(), ProductClickListener {
         setupToolbar()
         setupListeners()
         setupObservers()
-        recyclerViewProductOrderColorList.layoutManager = GridLayoutManager(this,3,GridLayoutManager.VERTICAL,false)
+        recyclerViewProductOrderColorList.layoutManager =
+            GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false)
         recyclerViewProductOrderColorList.addItemDecoration(
             DividerItemDecoration(
                 this,
@@ -76,9 +77,9 @@ class ProductActivity : AppCompatActivity(), ProductClickListener {
     }
 
     private fun setupAdapter(productOrder: List<ProductOrder>) {
-        if (::adapter.isInitialized){
+        if (::adapter.isInitialized) {
             adapter.notifyDataSetChanged()
-        }else {
+        } else {
             adapter = ProductOrderColorAdapter(productViewModel.getProduct(), productOrder, this)
             recyclerViewProductOrderColorList.adapter = adapter
         }

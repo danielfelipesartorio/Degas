@@ -3,7 +3,7 @@ package com.sartorio.degas.common
 import android.text.Editable
 import android.text.TextWatcher
 
-interface SimpleTextWatcher : TextWatcher {
+open class SimpleTextWatcher : TextWatcher {
     override fun afterTextChanged(p0: Editable?) {
     }
 

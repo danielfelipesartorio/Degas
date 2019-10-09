@@ -28,9 +28,9 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
 
     private val orderDetailsViewModel: OrderDetailsViewModel by viewModel()
     private val dialog: AlertDialog by lazy {
-            AlertDialog.Builder(this,R.style.TransparentDialog).apply {
-                setView(R.layout.loading_dialog)
-            }.create()
+        AlertDialog.Builder(this, R.style.TransparentDialog).apply {
+            setView(R.layout.loading_dialog)
+        }.create()
     }
 
 

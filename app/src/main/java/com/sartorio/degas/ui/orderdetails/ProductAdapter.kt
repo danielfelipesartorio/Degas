@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sartorio.degas.R
 import com.sartorio.degas.model.ProductOrder
 
-class ProductAdapter(productList: MutableList<ProductOrder>, private val listener: ProductListClickListener) : RecyclerView.Adapter<ProductViewHolder>() {
+class ProductAdapter(
+    productList: MutableList<ProductOrder>,
+    private val listener: ProductListClickListener
+) : RecyclerView.Adapter<ProductViewHolder>() {
     private val dataSet: MutableList<ProductOrder> = productList
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val inflater = LayoutInflater.from(parent.context)

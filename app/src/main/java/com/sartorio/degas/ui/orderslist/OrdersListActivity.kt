@@ -27,7 +27,7 @@ class OrdersListActivity : AppCompatActivity(),
     private lateinit var clientsDialog: SearchableDialog
 
     override fun onResume() {
-        clientsDialog =  SearchableDialog(this, ordersListViewModel.getClientNameList(), this)
+        clientsDialog = SearchableDialog(this, ordersListViewModel.getClientNameList(), this)
         super.onResume()
     }
 

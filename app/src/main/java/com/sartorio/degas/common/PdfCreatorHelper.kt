@@ -93,7 +93,11 @@ class PdfCreatorHelper(context: AppCompatActivity) {
         //intentShareFile.putExtra(Intent.EXTRA_SUBJECT,"Sharing File Subject);
         //intentShareFile.putExtra(Intent.EXTRA_TEXT, "Sharing File Description");
 
-        startActivity(mContext, Intent.createChooser(intentShareFile,"Escolha uma das opções"), null)
+        startActivity(
+            mContext,
+            Intent.createChooser(intentShareFile, "Escolha uma das opções"),
+            null
+        )
 
     }
 

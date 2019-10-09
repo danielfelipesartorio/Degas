@@ -26,28 +26,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/streetAddressLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="Nome da rua"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextStreetAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:nextFocusDown="@id/editTextPostCode"
-                        android:singleLine="true"
-                        android:text="@={clientAddressFragment.streetAddress}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/postCodeLayout"
                     android:layout_width="0dp"
@@ -56,28 +34,50 @@
                     android:hint="CEP"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/streetAddressLayout">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/editTextPostCode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionNext"
-                        android:nextFocusDown="@id/editTextDistrict"
+                        android:inputType="number"
+                        android:nextFocusDown="@id/editTextPostCode"
                         android:singleLine="true"
                         android:text="@={clientAddressFragment.postCode}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/streetAddressLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:hint="Nome da rua"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/postCodeLayout">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextStreetAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:nextFocusDown="@id/editTextDistrict"
+                        android:singleLine="true"
+                        android:text="@={clientAddressFragment.streetAddress}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/districtLayout"
                     android:layout_width="0dp"
-                    android:layout_marginTop="20dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:hint="Bairro"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/postCodeLayout">
+                    app:layout_constraintTop_toBottomOf="@id/streetAddressLayout">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextDistrict"
@@ -94,8 +94,8 @@
                     android:id="@+id/cityLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Cidade"
                     android:layout_marginTop="20dp"
+                    android:hint="Cidade"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/districtLayout">
