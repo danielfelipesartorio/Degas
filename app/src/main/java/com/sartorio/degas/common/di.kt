@@ -2,6 +2,7 @@ package com.sartorio.degas.common
 
 import com.google.gson.Gson
 import com.sartorio.degas.ui.*
+import com.sartorio.degas.ui.exportorder.ExportOrderViewModel
 import com.sartorio.degas.ui.newclient.NewClientViewModel
 import com.sartorio.degas.ui.orderdetails.OrderDetailsViewModel
 import com.sartorio.degas.ui.orderslist.OrdersListViewModel
@@ -19,6 +20,7 @@ val appModule = module {
     viewModel { ProductViewModel(get(), get()) }
     viewModel { OrderDetailsViewModel(get(), get()) }
     viewModel { NewClientViewModel(get()) }
+    viewModel { ExportOrderViewModel(get()) }
     single { ClientRepositoryImpl() as ClientRepository }
     single { OrderRepositoryImpl(get(), get()) as OrderRepository }
     single { ProductRepositoryImpl() as ProductRepository }

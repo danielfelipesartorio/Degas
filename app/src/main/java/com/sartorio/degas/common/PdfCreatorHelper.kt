@@ -115,7 +115,7 @@ class PdfCreatorHelper(context: AppCompatActivity) {
      * @return String
      */
     private fun getFileName(order: Order): String {
-        return "${order.client.name.companyName} - ${SimpleDateFormat("dd.MM.yyyy").format(order.date)}" + ".pdf"
+        return "${order.client.name.companyName} - ${SimpleDateFormat("dd.MM.yyyy").format(order.orderDate)}" + ".pdf"
     }
 
 }

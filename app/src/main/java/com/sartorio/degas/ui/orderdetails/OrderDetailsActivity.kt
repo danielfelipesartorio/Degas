@@ -1,6 +1,5 @@
 package com.sartorio.degas.ui.orderdetails
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,15 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.sartorio.degas.R
-import com.sartorio.degas.common.PdfCreatorHelper
 import com.sartorio.degas.model.Order
 import com.sartorio.degas.model.ProductOrder
 import com.sartorio.degas.ui.customcompoents.SearchableDialog
 import com.sartorio.degas.ui.customcompoents.SearchableDialogClickListener
+import com.sartorio.degas.ui.exportorder.ExportOrderActivity
 import com.sartorio.degas.ui.productdetails.ProductActivity
 import kotlinx.android.synthetic.main.activity_order.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -27,12 +24,6 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
     SearchableDialogClickListener {
 
     private val orderDetailsViewModel: OrderDetailsViewModel by viewModel()
-    private val dialog: AlertDialog by lazy {
-        AlertDialog.Builder(this, R.style.TransparentDialog).apply {
-            setView(R.layout.loading_dialog)
-        }.create()
-    }
-
 
     private val productCodeDialog: SearchableDialog by lazy {
         val productCodesList =
@@ -63,12 +54,9 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.print) {
-            val context = this
-            dialog.show()
-            GlobalScope.launch {
-                PdfCreatorHelper(context).printPDF(order)
-                context.dialog.dismiss()
-            }
+            startActivity(
+                ExportOrderActivity.createIntent(this, order.id)
+            )
         }
         return super.onOptionsItemSelected(item)
     }
@@ -94,7 +82,7 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
     private fun setupToolbar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title =
-            "${order.client.name.companyName} - ${SimpleDateFormat(SIMPLE_DATE_FORMAT).format(order.date)}"
+            "${order.client.name.companyName} - ${SimpleDateFormat(SIMPLE_DATE_FORMAT).format(order.orderDate)}"
     }
 
     private fun setupObservers() {

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="exportOrderViewModel"
+            type="com.sartorio.degas.ui.exportorder.ExportOrderViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.exportorder.ExportOrderActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingTop="20dp"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:id="@+id/orderDetailsContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textViewClientName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text = "Cliente A"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:padding="4dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/textViewOrderDate"
+                android:text="@{exportOrderViewModel.clientName}"/>
+
+            <TextView
+                android:id="@+id/textViewOrderDate"
+                android:layout_width="0dp"
+                tools:text = "01/01/2019"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:padding="4dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/textViewClientName"
+                android:text="@{exportOrderViewModel.orderDate}"/>
+
+            <TextView
+                android:id="@+id/textViewOrderAmount"
+                android:layout_width="0dp"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:padding="4dp"
+                tools:text = "112"
+                app:layout_constraintTop_toBottomOf="@id/textViewClientName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/textViewOrderCost"
+                android:text="@{exportOrderViewModel.orderAmount}"/>
+
+            <TextView
+                android:id="@+id/textViewOrderCost"
+                android:textColor="@color/black"
+                android:layout_width="0dp"
+                android:textSize="16sp"
+                android:padding="4dp"
+                tools:text = "$120,00"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/textViewClientName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/textViewOrderAmount"
+                android:text="@{exportOrderViewModel.orderCost}"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/orderDeliveryDateLayout"
+                android:layout_width="0dp"
+                app:layout_constraintTop_toBottomOf="@id/textViewOrderCost"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:hint="Prazo de entrega"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    tools:text = "01/01/2020"
+                    android:singleLine="true"
+                    android:text="@={exportOrderViewModel.deliveryDate}"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/orderPaymentOptionDateLayout"
+                android:layout_width="match_parent"
+                android:hint="Condição de pagamento"
+                app:layout_constraintTop_toBottomOf="@id/orderDeliveryDateLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    tools:text = "30/60/90/120"
+                    android:singleLine="true"
+                    android:text="@={exportOrderViewModel.paymentOptions}"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextObservations"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/edit_text_box"
+            android:gravity="top"
+            android:padding="10dp"
+            app:layout_constraintBottom_toTopOf="@id/buttonSend"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@={exportOrderViewModel.orderObservations}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/orderDetailsContainer"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur accumsan iaculis neque a facilisis. Duis sodales felis eu porttitor bibendum. Quisque sit amet leo diam. Nulla et lobortis elit. Nam sit amet tristique odio. Aenean nec facilisis tellus. Duis sodales felis ac arcu varius maximus. Suspendisse potenti. Aenean gravida metus at mi pretium, ac dignissim felis dictum. Ut consequat sapien tortor, in pharetra nibh consequat vel. Vestibulum bibendum in arcu bibendum rhoncus. Praesent egestas ex eget faucibus ornare. Pellentesque interdum vitae eros sit amet dignissim. Curabitur vulputate convallis dui. Proin ipsum eros, venenatis a nulla ut, suscipit egestas magna. Duis finibus, eros condimentum consequat commodo, libero nulla pulvinar urna, eu molestie metus lorem et ligula." />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonSend"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/button_background"
+            android:text="Enviar"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

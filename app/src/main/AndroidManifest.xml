@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -35,6 +36,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.productdetails.ProductActivity"
@@ -45,6 +49,9 @@
         <activity
             android:name=".ui.orderslist.OrdersListActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.exportorder.ExportOrderActivity"
+            android:windowSoftInputMode="adjustResize" />
+
     </application>
 
 </manifest>
