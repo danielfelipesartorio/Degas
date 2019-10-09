@@ -3,8 +3,10 @@ package com.sartorio.degas.ui.exportorder
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.DatePicker
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.sartorio.degas.R
@@ -58,6 +60,20 @@ class ExportOrderActivity : AppCompatActivity() {
                 orderDetailsContainer.visibility = View.GONE
             } else {
                 orderDetailsContainer.visibility = View.VISIBLE
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            exportOrderActivityBinding.editTextOrderDeliveryDate.setOnClickListener {
+                val view = layoutInflater.inflate(R.layout.date_picker, null)
+                val datePickerView: DatePicker = view.findViewById(R.id.datePicker)
+                val dialog = AlertDialog.Builder(this)
+                    .setView(view)
+                    .create()
+                datePickerView.setOnDateChangedListener { datePicker, year, month, day ->
+                    exportOrderViewModel.setDeliveryDate(day, month, year)
+                    dialog.dismiss()
+                }
+                dialog.show()
             }
         }
     }

@@ -84,14 +84,17 @@
                 app:layout_constraintTop_toBottomOf="@id/textViewOrderCost"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:focusable="@{exportOrderViewModel.focusable}"
                 android:hint="Prazo de entrega"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextOrderDeliveryDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     tools:text = "01/01/2020"
+                    android:focusable="@{exportOrderViewModel.focusable}"
                     android:singleLine="true"
                     android:text="@={exportOrderViewModel.deliveryDate}"/>
             </com.google.android.material.textfield.TextInputLayout>

@@ -1,5 +1,6 @@
 package com.sartorio.degas.ui.exportorder
 
+import android.os.Build
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import com.sartorio.degas.model.Order
@@ -21,11 +22,16 @@ class ExportOrderViewModel(
     val deliveryDate = ObservableField<String>()
     val paymentOptions = ObservableField<String>()
     val orderObservations = ObservableField<String>()
-
+    val focusable = ObservableField<Boolean>(Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+    val dateFormat by lazy {
+        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    }
+    val numberFormat by lazy {
+        NumberFormat.getCurrencyInstance()
+    }
 
     fun initViewModel(orderId: Int) {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val numberFormat = NumberFormat.getCurrencyInstance()
+
 
         this.order = orderRepository.getOrderById(orderId)
         clientName.set("Cliente: " + order.client.name.companyName)
@@ -39,5 +45,9 @@ class ExportOrderViewModel(
 
     fun getOrderByClient(): Order {
         return order
+    }
+
+    fun setDeliveryDate(day: Int, month: Int, year: Int) {
+        deliveryDate.set(String.format("%02d/%02d/%04d",day,month,year))
     }
 }
