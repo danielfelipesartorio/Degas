@@ -25,13 +25,13 @@ class ProductOrderColorViewHolder(private val view: View) : RecyclerView.ViewHol
         for (size in product.sizes) {
             val itemView = inflater.inflate(R.layout.product_size_item, null)
             view.layout.addView(itemView)
-            itemView.textViewSizeLabel.text = size
-            itemView.textViewAmountValue.text = (productOrder.quantity[size] ?: "0").toString()
+            itemView.textViewSizeLabel.text = size.key
+            itemView.textViewAmountValue.text = (productOrder.quantity[size.key] ?: "0").toString()
             itemView.imageButtonAdd.setOnClickListener {
-                listener.plusOne(product.colors[position], size)
+                listener.plusOne(product.colors[position], size.key)
             }
             itemView.imageButtonRemove.setOnClickListener {
-                listener.lessOne(product.colors[position], size)
+                listener.lessOne(product.colors[position], size.key)
             }
         }
     }

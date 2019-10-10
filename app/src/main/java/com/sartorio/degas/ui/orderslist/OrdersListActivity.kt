@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.sartorio.degas.R
 import com.sartorio.degas.model.Order
+import com.sartorio.degas.ui.addproducts.AddProductsActivity
 import com.sartorio.degas.ui.customcompoents.SearchableDialog
 import com.sartorio.degas.ui.customcompoents.SearchableDialogClickListener
 import com.sartorio.degas.ui.newclient.NewClientActivity
@@ -44,8 +45,9 @@ class OrdersListActivity : AppCompatActivity(),
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.newClient) {
-            startActivity(NewClientActivity.createIntent(this))
+        when (item.itemId) {
+            R.id.newClient -> startActivity(NewClientActivity.createIntent(this))
+            R.id.addProducts -> startActivity(AddProductsActivity.createIntent(this))
         }
         return super.onOptionsItemSelected(item)
     }

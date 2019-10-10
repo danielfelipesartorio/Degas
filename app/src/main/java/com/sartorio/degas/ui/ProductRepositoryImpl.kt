@@ -6,15 +6,29 @@ class ProductRepositoryImpl : ProductRepository {
 
 
     private var fakeProductList: MutableList<Product> = mutableListOf(
-        Product("01.01.0001", listOf(100, 1), listOf("P", "M", "G"), 10.0),
-        Product("01.01.0002", listOf(150, 200), listOf("P", "M", "G"), 10.0),
-        Product("01.01.0003", listOf(100, 200), listOf("P", "M", "G"), 10.0),
-        Product("01.01.0004", listOf(1, 15), listOf("P", "M", "G"), 10.0),
-        Product("01.01.0005", listOf(1, 2, 3, 4, 5, 6, 7, 8), listOf("P", "M", "G", "GG"), 10.0),
+        Product("01.01.0001", listOf(100, 1), mutableMapOf("P" to 20, "M" to 20, "G" to 20), 10.0),
+        Product("01.01.0002", listOf(150, 200), mutableMapOf("P" to 20, "M" to 20, "G" to 20), 10.0),
+        Product("01.01.0003", listOf(100, 200), mutableMapOf("P" to 20, "M" to 20, "G" to 20), 10.0),
+        Product("01.01.0004", listOf(1, 15), mutableMapOf("P" to 20, "M" to 20, "G" to 20), 10.0),
+        Product(
+            "01.01.0005",
+            listOf(1, 2, 3, 4, 5, 6, 7, 8),
+            mutableMapOf("P" to 20, "M" to 20, "G" to 20, "GG" to 20),
+            10.0
+        ),
         Product(
             "01.01.0006",
             listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
-            listOf("PP", "P", "M", "G", "GG", "XG", "XXG", "XXXG"),
+            mutableMapOf(
+                "PP" to 20,
+                "P" to 20,
+                "M" to 20,
+                "G" to 20,
+                "GG" to 20,
+                "XG" to 20,
+                "XXG" to 20,
+                "XXXG" to 20
+            ),
             10.0
         )
     )
