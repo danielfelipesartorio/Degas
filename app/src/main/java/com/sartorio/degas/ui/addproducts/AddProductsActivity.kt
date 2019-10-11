@@ -1,15 +1,17 @@
 package com.sartorio.degas.ui.addproducts
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.OpenableColumns
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.sartorio.degas.R
 import com.sartorio.degas.databinding.ActivityAddProductsBinding
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.InputStream
 
@@ -19,6 +21,12 @@ class AddProductsActivity : AppCompatActivity() {
     private val addProductViewModel: AddProductViewModel by viewModel()
 
     private lateinit var activityAddProductsBinding: ActivityAddProductsBinding
+
+    private val dialog: AlertDialog by lazy {
+        AlertDialog.Builder(this, R.style.TransparentDialog).apply {
+            setView(R.layout.loading_dialog)
+        }.create()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +55,12 @@ class AddProductsActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == OPEN_FILE_REQUEST && resultCode == Activity.RESULT_OK) {
             val inputStream = getInputStream(data?.data ?: return)
-            addProductViewModel.processFile(inputStream)
+            dialog.show()
+            GlobalScope.launch {
+                addProductViewModel.processFile(inputStream)
+                dialog.dismiss()
+            }
+
         }
 
         super.onActivityResult(requestCode, resultCode, data)
@@ -57,31 +70,6 @@ class AddProductsActivity : AppCompatActivity() {
         return contentResolver.openInputStream(uri) ?: throw Exception()
     }
 
-    private fun getFilePath(uri: Uri): String {
-        return uri.path?.split(":")?.get(1) ?: throw Exception()
-    }
-
-    fun getFileName(uri: Uri): String {
-        var result: String? = null
-        if (uri.scheme == "content") {
-            val cursor = contentResolver.query(uri, null, null, null, null)
-            try {
-                if (cursor != null && cursor.moveToFirst()) {
-                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
-                }
-            } finally {
-                cursor!!.close()
-            }
-        }
-        if (result == null) {
-            result = uri.path
-            val cut = result!!.lastIndexOf('/')
-            if (cut != -1) {
-                result = result.substring(cut + 1)
-            }
-        }
-        return result
-    }
 
 
     companion object {

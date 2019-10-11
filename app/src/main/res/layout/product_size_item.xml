@@ -24,7 +24,7 @@
         android:background="@drawable/background_dark_ripple"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_chevron_left_black_24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toStartOf="@id/textViewAmountValue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewSizeLabel" />
@@ -36,11 +36,21 @@
         android:gravity="center"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toStartOf="@id/imageButtonAdd"
         app:layout_constraintStart_toEndOf="@id/imageButtonRemove"
         app:layout_constraintTop_toBottomOf="@id/textViewSizeLabel"
         tools:text="0" />
+    <TextView
+        android:id="@+id/textViewStockValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@id/imageButtonAdd"
+        app:layout_constraintStart_toEndOf="@id/imageButtonRemove"
+        app:layout_constraintTop_toBottomOf="@id/textViewAmountValue"
+        tools:text="Estoque: 0" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageButtonAdd"
@@ -49,7 +59,7 @@
         android:background="@drawable/background_dark_ripple"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_chevron_right_black_24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/textViewAmountValue"
         app:layout_constraintTop_toBottomOf="@id/textViewSizeLabel" />
