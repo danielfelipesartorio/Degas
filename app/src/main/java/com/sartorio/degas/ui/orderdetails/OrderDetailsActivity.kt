@@ -1,5 +1,6 @@
 package com.sartorio.degas.ui.orderdetails
 
+import SampleSearchModel
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,24 +12,40 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.sartorio.degas.R
 import com.sartorio.degas.model.Order
 import com.sartorio.degas.model.ProductOrder
-import com.sartorio.degas.ui.customcompoents.SearchableDialog
-import com.sartorio.degas.ui.customcompoents.SearchableDialogClickListener
 import com.sartorio.degas.ui.exportorder.ExportOrderActivity
 import com.sartorio.degas.ui.productdetails.ProductActivity
+import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat
+import ir.mirrajabi.searchdialog.core.BaseSearchDialogCompat
+import ir.mirrajabi.searchdialog.core.SearchResultListener
 import kotlinx.android.synthetic.main.activity_order.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 
-class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
-    SearchableDialogClickListener {
+class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener{
 
     private val orderDetailsViewModel: OrderDetailsViewModel by viewModel()
 
-    private val productCodeDialog: SearchableDialog by lazy {
+    private val productCodeDialog: SimpleSearchDialogCompat<SampleSearchModel> by lazy {
         val productCodesList =
             orderDetailsViewModel.getProductList().map { it.code }.toMutableList()
-        SearchableDialog(this, productCodesList, this)
+        SimpleSearchDialogCompat(
+            this,
+            "Escolha a peça",
+            "",
+            null,
+            ArrayList(productCodesList.map { SampleSearchModel(it) }),
+            object : SearchResultListener<SampleSearchModel> {
+                override fun onSelected(
+                    dialog: BaseSearchDialogCompat<*>?,
+                    item: SampleSearchModel?,
+                    position: Int
+                ) {
+                    startActivity(ProductActivity.createIntent(this@OrderDetailsActivity, item?.title ?:return, order.id))
+                    productCodeDialog.dismiss()
+                }
+            }
+        )
     }
 
     private lateinit var order: Order
@@ -44,6 +61,7 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
 
     override fun onResume() {
         orderDetailsViewModel.initViewModel(order.id)
+
         super.onResume()
     }
 
@@ -116,11 +134,6 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener,
 
     override fun onLongPress(productOrder: ProductOrder) {
         orderDetailsViewModel.removeOrder(productOrder)
-    }
-
-    override fun onListItemClick(item: String) {
-        startActivity(ProductActivity.createIntent(this, item, order.id))
-        productCodeDialog.dismiss()
     }
 
     companion object {

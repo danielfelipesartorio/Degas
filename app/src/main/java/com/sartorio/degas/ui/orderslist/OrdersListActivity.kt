@@ -1,5 +1,6 @@
 package com.sartorio.degas.ui.orderslist
 
+import SampleSearchModel
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -12,24 +13,39 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.sartorio.degas.R
 import com.sartorio.degas.model.Order
 import com.sartorio.degas.ui.addproducts.AddProductsActivity
-import com.sartorio.degas.ui.customcompoents.SearchableDialog
-import com.sartorio.degas.ui.customcompoents.SearchableDialogClickListener
 import com.sartorio.degas.ui.newclient.NewClientActivity
 import com.sartorio.degas.ui.orderdetails.OrderDetailsActivity
+import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat
+import ir.mirrajabi.searchdialog.core.BaseSearchDialogCompat
+import ir.mirrajabi.searchdialog.core.SearchResultListener
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class OrdersListActivity : AppCompatActivity(),
-    OrderListClickListener, SearchableDialogClickListener {
+    OrderListClickListener{
 
     private val ordersListViewModel: OrdersListViewModel by viewModel()
 
-    private lateinit var clientsDialog: SearchableDialog
 
-    override fun onResume() {
-        clientsDialog = SearchableDialog(this, ordersListViewModel.getClientNameList(), this)
-        super.onResume()
+    private val clientsDialog: SimpleSearchDialogCompat<SampleSearchModel> by lazy {
+        SimpleSearchDialogCompat(
+            this,
+            "Escolha o cliente",
+            "",
+            null,
+            ArrayList(ordersListViewModel.getClientNameList().map { SampleSearchModel(it) }),
+            object :SearchResultListener<SampleSearchModel>{
+                override fun onSelected(
+                    dialog: BaseSearchDialogCompat<*>?,
+                    item: SampleSearchModel?,
+                    position: Int
+                ) {
+                    addNewOrder(item?.title ?: return)
+                    clientsDialog.dismiss()
+                }
+            }
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,11 +103,6 @@ class OrdersListActivity : AppCompatActivity(),
 
     override fun onClick(order: Order) {
         startActivity(OrderDetailsActivity.createIntent(this, order.id))
-    }
-
-    override fun onListItemClick(item: String) {
-        addNewOrder(item)
-        clientsDialog.dismiss()
     }
 
     override fun onLongPress(order: Order) {

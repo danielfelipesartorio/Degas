@@ -55,4 +55,6 @@ dependencies {
 
     implementation "org.apache.poi:poi:3.17"
 
+    implementation 'com.github.mirrajabi:search-dialog:1.2.4'
+
 }
