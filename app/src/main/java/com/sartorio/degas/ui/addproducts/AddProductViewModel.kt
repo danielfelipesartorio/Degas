@@ -1,6 +1,7 @@
 package com.sartorio.degas.ui.addproducts
 
 import android.util.Log
+import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import com.sartorio.degas.model.Product
 import com.sartorio.degas.ui.ProductRepository
@@ -14,9 +15,12 @@ class AddProductViewModel constructor(
     private val productRepository: ProductRepository
 ) : ViewModel() {
 
-    var headerMap = mutableMapOf<Int, String>()
+    val productsUpdatedCount = ObservableField<Int>()
+    val newProductsCount = ObservableField<Int>()
 
-    val tempProducts = mutableListOf<Product>()
+    private var headerMap = mutableMapOf<Int, String>()
+
+    private val tempProducts = mutableListOf<Product>()
 
     fun processFile(inputStream: InputStream) {
         try {
@@ -60,7 +64,7 @@ class AddProductViewModel constructor(
                             }
                         }
                     }
-                    if (code.isNotBlank() && colors.isNotEmpty() && cost !=0.0 && sizeAndStock.isNotEmpty()){
+                    if (code.isNotBlank() && colors.isNotEmpty() && cost != 0.0 && sizeAndStock.isNotEmpty()) {
                         tempProducts.add(Product(code, colors, sizeAndStock, cost))
                     }
                 }
@@ -68,7 +72,22 @@ class AddProductViewModel constructor(
         } catch (e: Exception) {
             Log.e("TESTE", "" + e + e.message)
         }
-        productRepository.getProductList().addAll(tempProducts)
+
+        val currentProductsList = productRepository.getProductList()
+
+        val codesInTheFile = tempProducts.map { it.code }
+        val unchangedCodes: MutableList<Product> =
+            currentProductsList.filter { it.code !in codesInTheFile }.toMutableList()
+
+        productsUpdatedCount.set(currentProductsList.size - unchangedCodes.size)
+
+        val newProductsList = mutableListOf<Product>()
+        newProductsList.addAll(tempProducts)
+        newProductsList.addAll(unchangedCodes)
+
+        newProductsCount.set(newProductsList.size - currentProductsList.size)
+
+        productRepository.updateProductList(newProductsList)
     }
 
     private fun mapColors(myCell: HSSFCell): List<Int> {

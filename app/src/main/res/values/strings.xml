@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Degas</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
+    <string name="add_products_activity_new_products_count">Total de produtos novos: %1$d </string>
+    <string name="add_products_activity_updated_products_count">Total de produtos atualizados: %1$d </string>
 </resources>

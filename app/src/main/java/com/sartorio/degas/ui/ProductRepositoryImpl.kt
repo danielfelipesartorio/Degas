@@ -41,5 +41,7 @@ class ProductRepositoryImpl : ProductRepository {
         return fakeProductList
     }
 
-
+    override fun updateProductList(productList: MutableList<Product>) {
+        fakeProductList = productList
+    }
 }

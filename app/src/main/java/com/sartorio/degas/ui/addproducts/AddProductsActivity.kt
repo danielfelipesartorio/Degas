@@ -7,7 +7,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.sartorio.degas.R
+import com.sartorio.degas.databinding.ActivityAddProductsBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.InputStream
 
@@ -16,9 +18,13 @@ class AddProductsActivity : AppCompatActivity() {
 
     private val addProductViewModel: AddProductViewModel by viewModel()
 
+    private lateinit var activityAddProductsBinding: ActivityAddProductsBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_products)
+        activityAddProductsBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_add_products)
+        activityAddProductsBinding.addProductViewModel = addProductViewModel
         selectFile()
     }
 
