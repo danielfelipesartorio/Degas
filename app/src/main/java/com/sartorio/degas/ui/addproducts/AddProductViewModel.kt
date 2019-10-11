@@ -1,22 +1,26 @@
 package com.sartorio.degas.ui.addproducts
 
-import android.content.res.AssetManager
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.sartorio.degas.model.Product
+import com.sartorio.degas.ui.ProductRepository
 import org.apache.poi.hssf.usermodel.HSSFCell
 import org.apache.poi.hssf.usermodel.HSSFRow
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.poifs.filesystem.POIFSFileSystem
 import java.io.InputStream
 
-class AddProductViewModel : ViewModel() {
+class AddProductViewModel constructor(
+    private val productRepository: ProductRepository
+) : ViewModel() {
 
     var headerMap = mutableMapOf<Int, String>()
 
-    fun processFile(assets: AssetManager, fileName: String) {
+    val tempProducts = mutableListOf<Product>()
+
+    fun processFile(inputStream: InputStream) {
         try {
-            val myInput: InputStream = assets.open(fileName)
-            val myFileSystem = POIFSFileSystem(myInput)
+            val myFileSystem = POIFSFileSystem(inputStream)
             val myWorkBook = HSSFWorkbook(myFileSystem)
             val mySheet = myWorkBook.getSheetAt(0)
 
@@ -33,7 +37,7 @@ class AddProductViewModel : ViewModel() {
                 if (myRow.rowNum != 0) {
                     val cellIter = myRow.cellIterator()
                     var code = ""
-                    val colors: List<Int> = listOf()
+                    var colors: List<Int> = listOf()
                     val sizeAndStock: MutableMap<String, Int> = mutableMapOf()
                     var cost = 0.0
                     while (cellIter.hasNext()) {
@@ -43,7 +47,7 @@ class AddProductViewModel : ViewModel() {
                                 code = myCell.toString()
                             }
                             COLORS -> {
-                                mapColors(myCell)
+                                colors = mapColors(myCell)
                             }
                             COST -> {
                                 cost = myCell.toString().toDouble()
@@ -51,17 +55,20 @@ class AddProductViewModel : ViewModel() {
                             else -> {
                                 sizeAndStock.put(
                                     headerMap[myCell.columnIndex] ?: return,
-                                    myCell.toString().toInt()
+                                    myCell.toString().split(".")[0].toInt()
                                 )
                             }
                         }
                     }
-                    Product(code, colors, sizeAndStock, cost)
+                    if (code.isNotBlank() && colors.isNotEmpty() && cost !=0.0 && sizeAndStock.isNotEmpty()){
+                        tempProducts.add(Product(code, colors, sizeAndStock, cost))
+                    }
                 }
             }
         } catch (e: Exception) {
-
+            Log.e("TESTE", "" + e + e.message)
         }
+        productRepository.getProductList().addAll(tempProducts)
     }
 
     private fun mapColors(myCell: HSSFCell): List<Int> {
