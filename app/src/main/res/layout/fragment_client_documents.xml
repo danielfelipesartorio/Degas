@@ -5,7 +5,7 @@
 
         <variable
             name="clientDocumentsFragment"
-            type="com.sartorio.degas.ui.newclient.ClientDocumentsFragment" />
+            type="com.sartorio.degas.ui.clients.newclient.ClientDocumentsFragment" />
     </data>
 
 
@@ -14,7 +14,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.newclient.ClientNameFragment">
+        tools:context=".ui.clients.newclient.ClientNameFragment">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"

@@ -1,13 +1,15 @@
 package com.sartorio.degas.common
 
 import com.google.gson.Gson
-import com.sartorio.degas.ui.*
-import com.sartorio.degas.ui.addproducts.AddProductViewModel
-import com.sartorio.degas.ui.exportorder.ExportOrderViewModel
-import com.sartorio.degas.ui.newclient.NewClientViewModel
-import com.sartorio.degas.ui.orderdetails.OrderDetailsViewModel
-import com.sartorio.degas.ui.orderslist.OrdersListViewModel
-import com.sartorio.degas.ui.productdetails.ProductViewModel
+import com.sartorio.degas.repository.*
+import com.sartorio.degas.services.CepService
+import com.sartorio.degas.ui.clients.ClientsListViewModel
+import com.sartorio.degas.ui.clients.newclient.NewClientViewModel
+import com.sartorio.degas.ui.collections.addproducts.AddProductViewModel
+import com.sartorio.degas.ui.collections.productdetails.ProductViewModel
+import com.sartorio.degas.ui.orders.exportorder.ExportOrderViewModel
+import com.sartorio.degas.ui.orders.orderdetails.OrderDetailsViewModel
+import com.sartorio.degas.ui.orders.orderslist.OrdersListViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.viewmodel.dsl.viewModel
@@ -23,8 +25,14 @@ val appModule = module {
     viewModel { NewClientViewModel(get()) }
     viewModel { ExportOrderViewModel(get()) }
     viewModel { AddProductViewModel(get()) }
+    viewModel { ClientsListViewModel(get()) }
     single { ClientRepositoryImpl() as ClientRepository }
-    single { OrderRepositoryImpl(get(), get()) as OrderRepository }
+    single {
+        OrderRepositoryImpl(
+            get(),
+            get()
+        ) as OrderRepository
+    }
     single { ProductRepositoryImpl() as ProductRepository }
 
 }

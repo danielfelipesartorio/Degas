@@ -1,9 +1,20 @@
 package com.sartorio.degas.model
 
 class Client(
-    val name: ClientName,
-    val documents: ClientDocuments,
-    val clientAddress: ClientAddress,
-    val contact: ClientContact
+    var name: ClientName,
+    var documents: ClientDocuments,
+    var clientAddress: ClientAddress,
+    var contact: ClientContact
+){
 
-)
+    companion object{
+        fun getNewClient():Client{
+            return Client(
+                ClientName("",""),
+                ClientDocuments("",""),
+                ClientAddress("","","","",""),
+                ClientContact("","","","")
+            )
+        }
+    }
+}

@@ -1,6 +1,6 @@
 package com.sartorio.degas.model
 
 class ClientDocuments(
-    val cnpj: String,
-    val stateRegistration: String
+    var cnpj: String,
+    var stateRegistration: String
 )

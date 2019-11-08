@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.sartorio.degas.R
-import com.sartorio.degas.ui.orderslist.OrdersListActivity
+import com.sartorio.degas.ui.home.HomeActivity
 
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -15,7 +15,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         Handler().postDelayed({
-            startActivity(OrdersListActivity.createIntent(this))
+            startActivity(HomeActivity.createIntent(this))
             finish()
         }, 1500)
 

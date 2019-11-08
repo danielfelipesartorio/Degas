@@ -13,7 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.addproducts.AddProductsActivity"></activity>
+        <activity android:name=".ui.collections.CollectionsListActivity"></activity>
+        <activity android:name=".ui.clients.ClientsListActivity" />
+        <activity android:name=".ui.home.HomeActivity" />
+        <activity android:name=".ui.collections.addproducts.AddProductsActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -26,7 +29,7 @@
         </provider>
 
         <activity
-            android:name=".ui.newclient.NewClientActivity"
+            android:name=".ui.clients.newclient.NewClientActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.splash.SplashScreenActivity"
@@ -42,16 +45,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.productdetails.ProductActivity"
+            android:name=".ui.collections.productdetails.ProductActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.orderdetails.OrderDetailsActivity"
+            android:name=".ui.orders.orderdetails.OrderDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.orderslist.OrdersListActivity"
+            android:name=".ui.orders.orderslist.OrdersListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.exportorder.ExportOrderActivity"
+            android:name=".ui.orders.exportorder.ExportOrderActivity"
             android:windowSoftInputMode="adjustResize" />
     </application>
 
