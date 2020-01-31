@@ -17,12 +17,14 @@ class AddProductViewModel constructor(
 
     val productsUpdatedCount = ObservableField<Int>()
     val newProductsCount = ObservableField<Int>()
+    val error = ObservableField<String>()
 
     private var headerMap = mutableMapOf<Int, String>()
 
     private val tempProducts = mutableListOf<Product>()
 
     fun processFile(inputStream: InputStream) {
+        error.set(null)
         try {
             val myFileSystem = POIFSFileSystem(inputStream)
             val myWorkBook = HSSFWorkbook(myFileSystem)
@@ -71,6 +73,7 @@ class AddProductViewModel constructor(
             }
         } catch (e: Exception) {
             Log.e("TESTE", "" + e + e.message)
+            error.set(e.message)
         }
 
         val currentProductsList = productRepository.getProductList()

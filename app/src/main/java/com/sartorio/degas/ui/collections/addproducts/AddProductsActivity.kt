@@ -28,6 +28,9 @@ class AddProductsActivity : AppCompatActivity() {
         }.create()
     }
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityAddProductsBinding =
@@ -59,6 +62,10 @@ class AddProductsActivity : AppCompatActivity() {
             GlobalScope.launch {
                 addProductViewModel.processFile(inputStream)
                 dialog.dismiss()
+                val error = addProductViewModel.error.get()
+                if (error?.isNotBlank() == true) {
+                    creteErrorDialog(error)
+                }
             }
 
         }
@@ -70,6 +77,12 @@ class AddProductsActivity : AppCompatActivity() {
         return contentResolver.openInputStream(uri) ?: throw Exception()
     }
 
+    private fun creteErrorDialog(message: String): AlertDialog =
+        AlertDialog.Builder(this).apply {
+            setTitle("ERRO")
+            setMessage(message)
+            setPositiveButton("OK") { _, _ -> }
+        }.show()
 
 
     companion object {
