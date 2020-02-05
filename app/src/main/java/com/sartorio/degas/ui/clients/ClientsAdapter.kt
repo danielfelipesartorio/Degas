@@ -8,7 +8,7 @@ import com.sartorio.degas.R
 import com.sartorio.degas.model.Client
 import kotlinx.android.synthetic.main.client_item.view.*
 
-class ClientsAdapter(var list: MutableList<Client>, val listener: ClientsListOnClickListener) :
+class ClientsAdapter(var list: List<Client>, val listener: ClientsListOnClickListener) :
     RecyclerView.Adapter<ClientViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClientViewHolder {
         val inflater = LayoutInflater.from(parent.context)

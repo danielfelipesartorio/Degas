@@ -30,7 +30,6 @@ class ExportOrderActivity : AppCompatActivity() {
     private val exportOrderViewModel: ExportOrderViewModel by viewModel()
     private lateinit var exportOrderActivityBinding: ActivityExportOrderBinding
 
-    private lateinit var order: Order
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +40,6 @@ class ExportOrderActivity : AppCompatActivity() {
         exportOrderActivityBinding.apply {
             this.exportOrderViewModel = this@ExportOrderActivity.exportOrderViewModel
         }
-        order = exportOrderViewModel.getOrderByClient()
         init()
     }
 
@@ -51,7 +49,7 @@ class ExportOrderActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         buttonSend.setOnClickListener {
-            order.observations = editTextObservations.text.toString()
+            exportOrderViewModel.order.observations = editTextObservations.text.toString()
             exportPdf()
         }
 
@@ -82,7 +80,7 @@ class ExportOrderActivity : AppCompatActivity() {
         val context = this
         dialog.show()
         GlobalScope.launch {
-            PdfCreatorHelper(context).printPDF(order)
+            PdfCreatorHelper(context).printPDF(exportOrderViewModel.order)
             context.dialog.dismiss()
         }
     }
@@ -94,12 +92,12 @@ class ExportOrderActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                 .setMessage("Deseja salvar as alterções?")
                 .setPositiveButton("Sim") { _, _ ->
-                    order.paymentCondition =
-                        exportOrderViewModel.paymentOptions.get() ?: order.paymentCondition
-                    order.deliveryDate =
+                    exportOrderViewModel.order.paymentCondition =
+                        exportOrderViewModel.paymentOptions.get() ?: exportOrderViewModel.order.paymentCondition
+                    exportOrderViewModel.order.deliveryDate =
                         SimpleDateFormat("dd/MM/yyyy").parse(
                             exportOrderViewModel.deliveryDate.get() ?: ""
-                        ) ?: order.deliveryDate
+                        ) ?: exportOrderViewModel.order.deliveryDate
                     super.onBackPressed()
                 }
                 .setNegativeButton("Não") { _, _ -> super.onBackPressed() }

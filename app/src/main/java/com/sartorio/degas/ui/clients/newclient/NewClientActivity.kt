@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.sartorio.degas.R
 import com.sartorio.degas.common.statefragment.*
 import com.sartorio.degas.model.*
@@ -31,9 +32,11 @@ class NewClientActivity : AppCompatActivity(), OnStepConcludedListener {
         setContentView(R.layout.activity_new_client)
         clientName = intent.extras?.getString(CLIENT) ?: ""
         newClientViewModel.initViewModel(clientName)
-        client = newClientViewModel.getCurrentClient()
+        newClientViewModel.client.observe(this, Observer {
+            client = it
+            startFlow()
+        })
         setupToolbar()
-        startFlow()
     }
 
     private fun setupToolbar() {
@@ -94,6 +97,7 @@ class NewClientActivity : AppCompatActivity(), OnStepConcludedListener {
     private fun mapNewClientData(flow: StateFlow): Client {
         val data = flow.getDataMap()
         return Client(
+            uName = (data[ClientNameFragment::class.java.name] as ClientName).companyName,
             name = data[ClientNameFragment::class.java.name] as ClientName,
             clientAddress = data[ClientAddressFragment::class.java.name] as ClientAddress,
             contact = data[ClientContactFragment::class.java.name] as ClientContact,

@@ -1,19 +1,26 @@
 package com.sartorio.degas.model
 
-class Client(
-    var name: ClientName,
-    var documents: ClientDocuments,
-    var clientAddress: ClientAddress,
-    var contact: ClientContact
-){
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-    companion object{
-        fun getNewClient():Client{
+@Entity
+data class Client(
+    @PrimaryKey var uName: String,
+    @ColumnInfo(name = "name") var name: ClientName,
+    @ColumnInfo(name = "documents") var documents: ClientDocuments,
+    @ColumnInfo(name = "clientAddress") var clientAddress: ClientAddress,
+    @ColumnInfo(name = "contact") var contact: ClientContact
+) {
+
+    companion object {
+        fun getNewClient(): Client {
             return Client(
-                ClientName("",""),
-                ClientDocuments("",""),
-                ClientAddress("","","","",""),
-                ClientContact("","","","")
+                "",
+                ClientName("", ""),
+                ClientDocuments("", ""),
+                ClientAddress("", "", "", "", ""),
+                ClientContact("", "", "", "")
             )
         }
     }

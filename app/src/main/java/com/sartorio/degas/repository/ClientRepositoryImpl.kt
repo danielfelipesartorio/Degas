@@ -1,45 +1,26 @@
 package com.sartorio.degas.repository
 
-import com.sartorio.degas.model.*
+import com.sartorio.degas.database.ClientDao
+import com.sartorio.degas.model.Client
 
-class ClientRepositoryImpl : ClientRepository {
+class ClientRepositoryImpl(
+    private val clientDao: ClientDao
+) : ClientRepository {
 
-    var fakeClientList = mutableListOf<Client>(
-        Client(
-            ClientName("Cliente A", "Fantasia A"),
-            ClientDocuments("cpf", "inscrição estadual"),
-            ClientAddress("Rua Ágata", "87083-320", "jardim Santa Helena", "Maringá", "PR"),
-            ClientContact("Daniel", "email@email.com", "44-3046-3887", "44-99932-3498")
-        ),
-        Client(
-            ClientName("Cliente B", "Fantasia B"),
-            ClientDocuments("cpf", "inscrição estadual"),
-            ClientAddress("", "", "", "", ""),
-            ClientContact("", "", "", "")
-        ),
-        Client(
-            ClientName("Cliente C", "Fantasia C"),
-            ClientDocuments("cpf", "inscrição estadual"),
-            ClientAddress("", "", "", "", ""),
-            ClientContact("", "", "", "")
-        )
-    )
-
-
-    override fun getClientsList(): MutableList<Client> {
-        return fakeClientList
+    override suspend fun getClientsList(): List<Client> {
+        return clientDao.getAll()
     }
 
-    override fun getClientByName(name: String): Client {
-        return fakeClientList.find { it.name.companyName == name }  ?: Client.getNewClient()
+    override suspend fun getClientByName(name: String): Client {
+        return clientDao.findByName(name) ?: Client.getNewClient()
     }
 
-    override fun addNewClient(client: Client) {
-        fakeClientList.add(client)
+    override suspend fun addNewClient(client: Client) {
+        clientDao.insert(client)
     }
 
-    override fun removeClient(client: Client){
-        fakeClientList.remove(client)
+    override suspend fun removeClient(client: Client) {
+        clientDao.delete(client)
     }
 
 }

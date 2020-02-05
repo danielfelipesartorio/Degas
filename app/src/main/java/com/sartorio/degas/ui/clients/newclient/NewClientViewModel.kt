@@ -1,23 +1,29 @@
 package com.sartorio.degas.ui.clients.newclient
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sartorio.degas.model.Client
 import com.sartorio.degas.repository.ClientRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
-class NewClientViewModel(val clientRepository: ClientRepository) : ViewModel() {
+class NewClientViewModel(
+    private val clientRepository: ClientRepository,
+    private val coroutineScope: CoroutineScope
+) : ViewModel() {
 
-    lateinit var client: Client
+    val client = MutableLiveData<Client>()
 
     fun saveNewClient(client: Client) {
-        clientRepository.removeClient(clientRepository.getClientByName(client.name.companyName))
-        clientRepository.addNewClient(client)
+        coroutineScope.launch {
+            clientRepository.removeClient(clientRepository.getClientByName(client.name.companyName))
+            clientRepository.addNewClient(client)
+        }
     }
 
     fun initViewModel(clientName: String) {
-        client = clientRepository.getClientByName(clientName)
-    }
-
-    fun getCurrentClient(): Client{
-        return client
+        coroutineScope.launch {
+            client.postValue( clientRepository.getClientByName(clientName))
+        }
     }
 }

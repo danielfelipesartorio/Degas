@@ -16,7 +16,7 @@ class ExportOrderViewModel(
     private val coroutineScope: CoroutineScope
 ) : ViewModel() {
 
-    private lateinit var order: Order
+    lateinit var order: Order
 
     val clientName = ObservableField<String>()
     val orderDate = ObservableField<String>()
@@ -45,10 +45,6 @@ class ExportOrderViewModel(
             paymentOptions.set(order.paymentCondition)
             orderObservations.set(order.observations)
         }
-    }
-
-    fun getOrderByClient(): Order {
-        return order
     }
 
     fun setDeliveryDate(day: Int, month: Int, year: Int) {

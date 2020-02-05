@@ -60,6 +60,11 @@ class OrdersListActivity : AppCompatActivity(),
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onResume() {
+        super.onResume()
+        ordersListViewModel.initViewModel()
+    }
+
     private fun initView() {
         recyclerViewOrdersList.addItemDecoration(
             DividerItemDecoration(

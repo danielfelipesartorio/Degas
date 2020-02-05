@@ -14,13 +14,22 @@ class OrdersListViewModel(
     private val coroutineScope: CoroutineScope
 ) : ViewModel() {
     val ordersList = MutableLiveData<List<Order>>()
+    private lateinit var clientNameList: List<String>
 
-    fun getClientNameList(): MutableList<String> {
-        return clientRepository.getClientsList().map { it.name.companyName }.toMutableList()
+    fun getClientNameList(): List<String> {
+        return if (::clientNameList.isInitialized) {
+            clientNameList
+        } else {
+            emptyList()
+        }
     }
 
     fun initViewModel() {
         getOrdersList()
+        coroutineScope.launch {
+            clientNameList =
+                clientRepository.getClientsList().map { it.name.companyName }.toMutableList()
+        }
     }
 
     private fun getOrdersList() {

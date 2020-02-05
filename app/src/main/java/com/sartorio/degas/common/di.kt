@@ -28,11 +28,11 @@ val appModule = module {
     viewModel { OrdersListViewModel(get(), get(), get()) }
     viewModel { ProductViewModel(get(), get(), get()) }
     viewModel { OrderDetailsViewModel(get(), get(), get()) }
-    viewModel { NewClientViewModel(get()) }
+    viewModel { NewClientViewModel(get(),get()) }
     viewModel { ExportOrderViewModel(get(), get()) }
     viewModel { AddProductViewModel(get(), get()) }
-    viewModel { ClientsListViewModel(get()) }
-    single { ClientRepositoryImpl() as ClientRepository }
+    viewModel { ClientsListViewModel(get(),get()) }
+    single { ClientRepositoryImpl(get()) as ClientRepository }
     single {
         OrderRepositoryImpl(
             get(),
@@ -58,6 +58,8 @@ val appModule = module {
     single { get<AppDatabase>().productDao() }
 
     single { get<AppDatabase>().ordersDao() }
+
+    single { get<AppDatabase>().clientDao() }
 
 }
 
