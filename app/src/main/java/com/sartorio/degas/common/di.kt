@@ -1,6 +1,10 @@
 package com.sartorio.degas.common
 
+import androidx.room.Room
 import com.google.gson.Gson
+import com.sartorio.degas.database.AppDatabase
+import com.sartorio.degas.database.ProductDao
+import com.sartorio.degas.model.Product
 import com.sartorio.degas.repository.*
 import com.sartorio.degas.services.CepService
 import com.sartorio.degas.ui.clients.ClientsListViewModel
@@ -10,6 +14,8 @@ import com.sartorio.degas.ui.collections.productdetails.ProductViewModel
 import com.sartorio.degas.ui.orders.exportorder.ExportOrderViewModel
 import com.sartorio.degas.ui.orders.orderdetails.OrderDetailsViewModel
 import com.sartorio.degas.ui.orders.orderslist.OrdersListViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.viewmodel.dsl.viewModel
@@ -19,7 +25,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 val appModule = module {
-    viewModel { OrdersListViewModel(get(), get()) }
+    factory { CoroutineScope(Dispatchers.Default) }
+
+    viewModel { OrdersListViewModel(get(), get(),get()) }
     viewModel { ProductViewModel(get(), get()) }
     viewModel { OrderDetailsViewModel(get(), get()) }
     viewModel { NewClientViewModel(get()) }
@@ -33,7 +41,24 @@ val appModule = module {
             get()
         ) as OrderRepository
     }
-    single { ProductRepositoryImpl() as ProductRepository }
+    single {
+        ProductRepositoryImpl(
+            get()
+        ) as ProductRepository
+    }
+
+    single {
+        Room.databaseBuilder(
+            get(),
+            AppDatabase::class.java,
+            "degas-database"
+        )
+            .fallbackToDestructiveMigration()
+            .allowMainThreadQueries()
+            .build()
+    }
+
+    single { get<AppDatabase>().productDao() }
 
 }
 

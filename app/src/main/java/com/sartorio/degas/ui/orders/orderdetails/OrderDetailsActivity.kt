@@ -1,6 +1,6 @@
 package com.sartorio.degas.ui.orders.orderdetails
 
-import SampleSearchModel
+import com.sartorio.degas.ui.customcompoents.SampleSearchModel
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle

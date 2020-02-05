@@ -1,5 +1,6 @@
-import ir.mirrajabi.searchdialog.core.Searchable
+package com.sartorio.degas.ui.customcompoents
 
+import ir.mirrajabi.searchdialog.core.Searchable
 
 class SampleSearchModel(private var mTitle: String) : Searchable {
 

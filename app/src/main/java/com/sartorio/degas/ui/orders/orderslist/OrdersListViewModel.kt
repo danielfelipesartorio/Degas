@@ -5,10 +5,13 @@ import androidx.lifecycle.ViewModel
 import com.sartorio.degas.model.Order
 import com.sartorio.degas.repository.ClientRepository
 import com.sartorio.degas.repository.OrderRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 class OrdersListViewModel(
     private val ordersRepository: OrderRepository,
-    private val clientRepository: ClientRepository
+    private val clientRepository: ClientRepository,
+    private val coroutineScope: CoroutineScope
 ) : ViewModel() {
     val ordersList = MutableLiveData<MutableList<Order>>()
 
@@ -20,17 +23,23 @@ class OrdersListViewModel(
         getOrdersList()
     }
 
-    fun getOrdersList() {
-        ordersList.postValue(ordersRepository.getOrdersList())
+    private fun getOrdersList() {
+        coroutineScope.launch {
+            ordersList.postValue(ordersRepository.getOrdersList())
+        }
     }
 
     fun addNewOrder(clientName: String) {
-        ordersRepository.addNewOrder(clientName)
+        coroutineScope.launch {
+            ordersRepository.addNewOrder(clientName)
+        }
         getOrdersList()
     }
 
     fun deleteOrder(order: Order) {
-        ordersRepository.deleteOrder(order)
-        getOrdersList()
+        coroutineScope.launch {
+            ordersRepository.deleteOrder(order)
+            getOrdersList()
+        }
     }
 }

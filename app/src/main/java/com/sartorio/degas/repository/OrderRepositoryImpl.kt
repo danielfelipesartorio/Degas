@@ -10,37 +10,37 @@ class OrderRepositoryImpl(
     private val clientRepository: ClientRepository
 ) : OrderRepository {
 
-    private var fakeOrdersList = mutableListOf(
-        Order(
-            1, clientRepository.getClientByName("Cliente A"), Date(1546300800000), mutableListOf(
-                ProductOrder(
-                    productRepository.getProductByCode("01.01.0001"),
-                    productRepository.getProductByCode("01.01.0001").colors[0],
-                    mutableMapOf("P" to 10, "M" to 2),
-                    1
-                )
-            )
-        ),
-        Order(
-            2, clientRepository.getClientByName("Cliente B"), Date(1546300800000), mutableListOf(
-                ProductOrder(
-                    productRepository.getProductByCode("01.01.0001"),
-                    productRepository.getProductByCode("01.01.0001").colors[1],
-                    mutableMapOf("P" to 1, "M" to 2),
-                    2
-                )
-            )
-        ),
-        Order(
-            3, clientRepository.getClientByName("Cliente C"), Date(1546300800000), mutableListOf(
-                ProductOrder(
-                    productRepository.getProductByCode("01.01.0002"),
-                    productRepository.getProductByCode("01.01.0002").colors[0],
-                    mutableMapOf("P" to 3, "G" to 2),
-                    3
-                )
-            )
-        )
+    private var fakeOrdersList = mutableListOf<Order>(
+//        Order(
+//            1, clientRepository.getClientByName("Cliente A"), Date(1546300800000), mutableListOf(
+//                ProductOrder(
+//                    productRepository.getProductByCode("01.01.0001"),
+//                    productRepository.getProductByCode("01.01.0001").colors[0],
+//                    mutableMapOf("P" to 10, "M" to 2),
+//                    1
+//                )
+//            )
+//        ),
+//        Order(
+//            2, clientRepository.getClientByName("Cliente B"), Date(1546300800000), mutableListOf(
+//                ProductOrder(
+//                    productRepository.getProductByCode("01.01.0001"),
+//                    productRepository.getProductByCode("01.01.0001").colors[1],
+//                    mutableMapOf("P" to 1, "M" to 2),
+//                    2
+//                )
+//            )
+//        ),
+//        Order(
+//            3, clientRepository.getClientByName("Cliente C"), Date(1546300800000), mutableListOf(
+//                ProductOrder(
+//                    productRepository.getProductByCode("01.01.0002"),
+//                    productRepository.getProductByCode("01.01.0002").colors[0],
+//                    mutableMapOf("P" to 3, "G" to 2),
+//                    3
+//                )
+//            )
+//        )
     )
 
     override fun getOrdersList(): MutableList<Order> {

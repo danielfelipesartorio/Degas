@@ -1,6 +1,5 @@
 package com.sartorio.degas.ui.orders.orderslist
 
-import SampleSearchModel
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -16,7 +15,7 @@ import com.sartorio.degas.ui.collections.addproducts.AddProductsActivity
 import com.sartorio.degas.ui.clients.newclient.NewClientActivity
 import com.sartorio.degas.ui.orders.orderdetails.OrderDetailsActivity
 import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat
-import ir.mirrajabi.searchdialog.core.BaseSearchDialogCompat
+import com.sartorio.degas.ui.customcompoents.SampleSearchModel
 import ir.mirrajabi.searchdialog.core.SearchResultListener
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -33,7 +32,7 @@ class OrdersListActivity : AppCompatActivity(),
             "Escolha o cliente",
             "",
             null,
-            ArrayList(ordersListViewModel.getClientNameList().map { SampleSearchModel(it) }),
+            ArrayList(ordersListViewModel.getClientNameList().map { com.sartorio.degas.ui.customcompoents.SampleSearchModel(it) }),
             SearchResultListener<SampleSearchModel> { _, item, _ ->
                 addNewOrder(item?.title ?: return@SearchResultListener)
                 clientsDialog.dismiss()
