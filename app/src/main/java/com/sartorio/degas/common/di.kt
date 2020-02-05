@@ -3,8 +3,6 @@ package com.sartorio.degas.common
 import androidx.room.Room
 import com.google.gson.Gson
 import com.sartorio.degas.database.AppDatabase
-import com.sartorio.degas.database.ProductDao
-import com.sartorio.degas.model.Product
 import com.sartorio.degas.repository.*
 import com.sartorio.degas.services.CepService
 import com.sartorio.degas.ui.clients.ClientsListViewModel
@@ -27,16 +25,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 val appModule = module {
     factory { CoroutineScope(Dispatchers.Default) }
 
-    viewModel { OrdersListViewModel(get(), get(),get()) }
-    viewModel { ProductViewModel(get(), get()) }
-    viewModel { OrderDetailsViewModel(get(), get()) }
+    viewModel { OrdersListViewModel(get(), get(), get()) }
+    viewModel { ProductViewModel(get(), get(), get()) }
+    viewModel { OrderDetailsViewModel(get(), get(), get()) }
     viewModel { NewClientViewModel(get()) }
-    viewModel { ExportOrderViewModel(get()) }
-    viewModel { AddProductViewModel(get()) }
+    viewModel { ExportOrderViewModel(get(), get()) }
+    viewModel { AddProductViewModel(get(), get()) }
     viewModel { ClientsListViewModel(get()) }
     single { ClientRepositoryImpl() as ClientRepository }
     single {
         OrderRepositoryImpl(
+            get(),
             get(),
             get()
         ) as OrderRepository
@@ -53,12 +52,12 @@ val appModule = module {
             AppDatabase::class.java,
             "degas-database"
         )
-            .fallbackToDestructiveMigration()
-            .allowMainThreadQueries()
             .build()
     }
 
     single { get<AppDatabase>().productDao() }
+
+    single { get<AppDatabase>().ordersDao() }
 
 }
 
@@ -86,7 +85,7 @@ val netWorkModule = module {
         val httpLoggingInterceptor: HttpLoggingInterceptor = get()
         OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
-            .build() as OkHttpClient
+            .build()
     }
     single {
         val retrofit: Retrofit = get()

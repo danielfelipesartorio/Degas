@@ -13,7 +13,7 @@ class OrdersListViewModel(
     private val clientRepository: ClientRepository,
     private val coroutineScope: CoroutineScope
 ) : ViewModel() {
-    val ordersList = MutableLiveData<MutableList<Order>>()
+    val ordersList = MutableLiveData<List<Order>>()
 
     fun getClientNameList(): MutableList<String> {
         return clientRepository.getClientsList().map { it.name.companyName }.toMutableList()
@@ -32,8 +32,8 @@ class OrdersListViewModel(
     fun addNewOrder(clientName: String) {
         coroutineScope.launch {
             ordersRepository.addNewOrder(clientName)
+            getOrdersList()
         }
-        getOrdersList()
     }
 
     fun deleteOrder(order: Order) {

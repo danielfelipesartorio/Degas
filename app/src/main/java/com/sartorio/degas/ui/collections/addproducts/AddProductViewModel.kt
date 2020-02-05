@@ -5,6 +5,8 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import com.sartorio.degas.model.Product
 import com.sartorio.degas.repository.ProductRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.apache.poi.hssf.usermodel.HSSFCell
 import org.apache.poi.hssf.usermodel.HSSFRow
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
@@ -12,7 +14,8 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem
 import java.io.InputStream
 
 class AddProductViewModel constructor(
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val coroutineScope: CoroutineScope
 ) : ViewModel() {
 
     val productsUpdatedCount = ObservableField<Int>()
@@ -76,21 +79,23 @@ class AddProductViewModel constructor(
             error.set(e.message)
         }
 
-        val currentProductsList = productRepository.getProductList()
+        coroutineScope.launch {
+            val currentProductsList = productRepository.getProductList()
 
-        val codesInTheFile = tempProducts.map { it.code }
-        val unchangedCodes: MutableList<Product> =
-            currentProductsList.filter { it.code !in codesInTheFile }.toMutableList()
+            val codesInTheFile = tempProducts.map { it.code }
+            val unchangedCodes: MutableList<Product> =
+                currentProductsList.filter { it.code !in codesInTheFile }.toMutableList()
 
-        productsUpdatedCount.set(currentProductsList.size - unchangedCodes.size)
+            productsUpdatedCount.set(currentProductsList.size - unchangedCodes.size)
 
-        val newProductsList = mutableListOf<Product>()
-        newProductsList.addAll(tempProducts)
-        newProductsList.addAll(unchangedCodes)
+            val newProductsList = mutableListOf<Product>()
+            newProductsList.addAll(tempProducts)
+            newProductsList.addAll(unchangedCodes)
 
-        newProductsCount.set(newProductsList.size - currentProductsList.size)
+            newProductsCount.set(newProductsList.size - currentProductsList.size)
 
-        productRepository.updateProductList(newProductsList)
+            productRepository.updateProductList(newProductsList)
+        }
     }
 
     private fun mapColors(myCell: HSSFCell): List<Int> {

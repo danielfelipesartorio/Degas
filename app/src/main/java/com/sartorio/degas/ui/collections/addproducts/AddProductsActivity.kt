@@ -10,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.sartorio.degas.R
 import com.sartorio.degas.databinding.ActivityAddProductsBinding
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.InputStream
 
@@ -27,8 +25,6 @@ class AddProductsActivity : AppCompatActivity() {
             setView(R.layout.loading_dialog)
         }.create()
     }
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,13 +55,11 @@ class AddProductsActivity : AppCompatActivity() {
         if (requestCode == OPEN_FILE_REQUEST && resultCode == Activity.RESULT_OK) {
             val inputStream = getInputStream(data?.data ?: return)
             dialog.show()
-            GlobalScope.launch {
-                addProductViewModel.processFile(inputStream)
-                dialog.dismiss()
-                val error = addProductViewModel.error.get()
-                if (error?.isNotBlank() == true) {
-                    creteErrorDialog(error)
-                }
+            addProductViewModel.processFile(inputStream)
+            dialog.dismiss()
+            val error = addProductViewModel.error.get()
+            if (error?.isNotBlank() == true) {
+                creteErrorDialog(error)
             }
 
         }

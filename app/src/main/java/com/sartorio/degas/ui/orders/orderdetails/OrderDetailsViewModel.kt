@@ -7,31 +7,42 @@ import com.sartorio.degas.model.Product
 import com.sartorio.degas.model.ProductOrder
 import com.sartorio.degas.repository.OrderRepository
 import com.sartorio.degas.repository.ProductRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 class OrderDetailsViewModel(
     private val productRepository: ProductRepository,
-    private val orderRepository: OrderRepository
+    private val orderRepository: OrderRepository,
+    private val coroutineScope: CoroutineScope
 ) : ViewModel() {
 
     val productOrderList = MutableLiveData<MutableList<ProductOrder>>()
+    val orderMutable = MutableLiveData<Order>()
+    private lateinit var productList: List<Product>
 
     private lateinit var order: Order
 
     fun initViewModel(orderId: Int) {
-        this.order = orderRepository.getOrderById(orderId)
-        productOrderList.postValue(order.productList)
+        coroutineScope.launch {
+            order = orderRepository.getOrderById(orderId)
+            productOrderList.postValue(order.productList)
+            productList = productRepository.getProductList()
+            orderMutable.postValue(order)
+        }
     }
 
     fun removeOrder(productOrder: ProductOrder) {
-        orderRepository.removeOrder(productOrder)
-        productOrderList.postValue(orderRepository.getOrderById(productOrder.orderId).productList)
+        coroutineScope.launch {
+            orderRepository.removeOrder(productOrder)
+            productOrderList.postValue(orderRepository.getOrderById(productOrder.orderId).productList)
+        }
     }
 
     fun getProductList(): List<Product> {
-        return productRepository.getProductList()
-    }
-
-    fun getOrderByClient(orderId: Int): Order {
-        return orderRepository.getOrderById(orderId)
+        return if (::productList.isInitialized) {
+            productList
+        } else {
+            emptyList()
+        }
     }
 }

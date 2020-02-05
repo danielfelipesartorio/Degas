@@ -67,12 +67,14 @@ class ProductActivity : AppCompatActivity(), ProductClickListener {
         productViewModel.productOrders.observe(this, Observer {
             setupAdapter(it)
         })
+        productViewModel.updateSuccess.observe(this, Observer {
+            finish()
+        })
     }
 
     private fun setupListeners() {
         buttonSaveProduct.setOnClickListener {
             productViewModel.saveAlterations()
-            finish()
         }
     }
 

@@ -32,7 +32,7 @@ class OrdersListActivity : AppCompatActivity(),
             "Escolha o cliente",
             "",
             null,
-            ArrayList(ordersListViewModel.getClientNameList().map { com.sartorio.degas.ui.customcompoents.SampleSearchModel(it) }),
+            ArrayList(ordersListViewModel.getClientNameList().map { SampleSearchModel(it) }),
             SearchResultListener<SampleSearchModel> { _, item, _ ->
                 addNewOrder(item?.title ?: return@SearchResultListener)
                 clientsDialog.dismiss()
@@ -78,7 +78,7 @@ class OrdersListActivity : AppCompatActivity(),
         })
     }
 
-    private fun setupAdapter(list: MutableList<Order>) {
+    private fun setupAdapter(list: List<Order>) {
         recyclerViewOrdersList.adapter = OrdersAdapter(list, this)
     }
 
