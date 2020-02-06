@@ -35,7 +35,7 @@ class PdfCreatorHelper(context: AppCompatActivity) {
     }
 
     private fun fillFormPDF(order: Order, outputStream: FileOutputStream) {
-        val reader = PdfReader(mContext.resources.openRawResource(R.raw.blankform))
+        val reader = PdfReader(mContext.resources.openRawResource(R.raw.degasform))
         val stamper = PdfStamper(reader, outputStream)
         val acroFields = stamper.acroFields
 
@@ -50,8 +50,20 @@ class PdfCreatorHelper(context: AppCompatActivity) {
 
         acroFields.setField("companyName", order.client.name.companyName)
         acroFields.setField("fantasyName", order.client.name.fantasyName)
+        acroFields.setField("clientCNPJ", order.client.documents.cnpj)
+        acroFields.setField("clientSI", order.client.documents.stateRegistration)
+
+        acroFields.setField("clientAddress", order.client.clientAddress.streetAddress)
+        acroFields.setField("clientPostCode", order.client.clientAddress.postCode)
+        acroFields.setField("clientDistrict", order.client.clientAddress.district)
+        acroFields.setField("clientCity", order.client.clientAddress.city)
+        acroFields.setField("clientState", order.client.clientAddress.state)
+
         acroFields.setField("contactName", order.client.contact.contactName)
         acroFields.setField("contatctEmail", order.client.contact.email)
+        acroFields.setField("contactPhone1", order.client.contact.telephone)
+        acroFields.setField("contactPhone2", order.client.contact.cellphone)
+
         order.productList.forEach {
             codes += it.product.code + "\n"
             color += String.format("%03d", it.productColor) + "\n"
