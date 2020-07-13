@@ -47,18 +47,7 @@ class OrdersListActivity : AppCompatActivity(),
         initView()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.orders_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.newClient -> startActivity(NewClientActivity.createIntent(this))
-            R.id.addProducts -> startActivity(AddProductsActivity.createIntent(this))
-        }
-        return super.onOptionsItemSelected(item)
-    }
 
     override fun onResume() {
         super.onResume()

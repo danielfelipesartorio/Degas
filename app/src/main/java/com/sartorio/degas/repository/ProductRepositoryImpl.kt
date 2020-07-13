@@ -21,4 +21,11 @@ class ProductRepositoryImpl(
             productDao.insert(it)
         }
     }
+
+    override suspend fun deleteAll() : Boolean {
+        productDao.getAll().forEach {
+            productDao.delete(it)
+        }
+        return true
+    }
 }

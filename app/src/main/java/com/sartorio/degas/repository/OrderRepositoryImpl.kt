@@ -55,4 +55,11 @@ class OrderRepositoryImpl(
             getOrderById(productOrder.orderId).productList.remove(productOrder)
         }
     }
+
+    override suspend fun deleteAll(): Boolean {
+        getOrdersList().forEach {
+            deleteOrder(it)
+        }
+        return true
+    }
 }

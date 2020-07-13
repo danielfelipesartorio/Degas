@@ -23,4 +23,10 @@ class ClientRepositoryImpl(
         clientDao.delete(client)
     }
 
+    override suspend fun updateClientList(newProductsList: MutableList<Client>) {
+        newProductsList.forEach {
+            clientDao.delete(it)
+            clientDao.insert(it)
+        }
+    }
 }

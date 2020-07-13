@@ -11,6 +11,7 @@ import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import com.sartorio.degas.R
 import com.sartorio.degas.common.MaskTextChangedListener
+import com.sartorio.degas.common.MultiMaskTextChangedListener
 import com.sartorio.degas.common.SimpleTextWatcher
 import com.sartorio.degas.common.statefragment.BaseState
 import com.sartorio.degas.common.statefragment.OnStepConcludedListener
@@ -64,7 +65,8 @@ class ClientDocumentsFragment : StateFragment(), BaseState<ClientDocuments> {
                 }
             })
             editTextCnpj.addTextChangedListener(
-                MaskTextChangedListener(
+                MultiMaskTextChangedListener(
+                    "##.###.###/####-##",
                     "###.###.###-##",
                     editTextCnpj
                 )

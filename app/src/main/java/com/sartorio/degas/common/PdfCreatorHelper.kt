@@ -35,7 +35,7 @@ class PdfCreatorHelper(context: AppCompatActivity) {
     }
 
     private fun fillFormPDF(order: Order, outputStream: FileOutputStream) {
-        val reader = PdfReader(mContext.resources.openRawResource(R.raw.degasform))
+        val reader = PdfReader(mContext.resources.openRawResource(R.raw.degasform2020))
         val stamper = PdfStamper(reader, outputStream)
         val acroFields = stamper.acroFields
 
@@ -46,6 +46,7 @@ class PdfCreatorHelper(context: AppCompatActivity) {
         var amountM = ""
         var amountG = ""
         var amountGG = ""
+        var amountG1 = ""
 
 
         acroFields.setField("companyName", order.client.name.companyName)
@@ -72,6 +73,7 @@ class PdfCreatorHelper(context: AppCompatActivity) {
             amountM += (it.quantity["M"] ?: "0").toString() + "\n"
             amountG += (it.quantity["G"] ?: "0").toString() + "\n"
             amountGG += (it.quantity["GG"] ?: "0").toString() + "\n"
+            amountG1 += (it.quantity["G1"] ?: "0").toString() + "\n"
         }
 
         acroFields.setField("code", codes)
@@ -81,6 +83,7 @@ class PdfCreatorHelper(context: AppCompatActivity) {
         acroFields.setField("amountM", amountM)
         acroFields.setField("amountG", amountG)
         acroFields.setField("amountGG", amountGG)
+        acroFields.setField("amountG1", amountG1)
 
         stamper.close()
         reader.close()

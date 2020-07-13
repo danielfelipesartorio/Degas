@@ -7,39 +7,33 @@
     tools:context=".ui.home.HomeActivity">
 
     <androidx.appcompat.widget.AppCompatButton
+        style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/button_background"
         android:onClick="onClickClients"
-        android:text="Clientes"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:text="Clientes" />
 
     <androidx.appcompat.widget.AppCompatButton
+        style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/button_background"
         android:onClick="onClickCollections"
-        android:text="Coleções"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:text="Coleções" />
 
     <androidx.appcompat.widget.AppCompatButton
+        style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/button_background"
         android:onClick="onClickOrders"
-        android:text="Pedidos"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:text="Pedidos" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

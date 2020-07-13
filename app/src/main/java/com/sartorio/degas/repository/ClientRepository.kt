@@ -7,4 +7,5 @@ interface ClientRepository {
     suspend fun getClientByName(name: String): Client
     suspend fun addNewClient(client: Client)
     suspend fun removeClient(client: Client)
+    suspend fun updateClientList(newProductsList: MutableList<Client>)
 }

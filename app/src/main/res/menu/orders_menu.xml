@@ -6,10 +6,5 @@
         android:icon="@drawable/ic_person_add_white_24dp"
         android:title="Novo cliente"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/addProducts"
-        android:icon="@drawable/ic_save_white_24dp"
-        android:title="Adicionar produtos"
-        app:showAsAction="always"/>
 
 </menu>

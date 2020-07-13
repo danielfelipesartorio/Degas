@@ -6,7 +6,9 @@ import com.sartorio.degas.database.AppDatabase
 import com.sartorio.degas.repository.*
 import com.sartorio.degas.services.CepService
 import com.sartorio.degas.ui.clients.ClientsListViewModel
+import com.sartorio.degas.ui.clients.importclient.ImportClientViewModel
 import com.sartorio.degas.ui.clients.newclient.NewClientViewModel
+import com.sartorio.degas.ui.collections.CollectionsListViewModel
 import com.sartorio.degas.ui.collections.addproducts.AddProductViewModel
 import com.sartorio.degas.ui.collections.productdetails.ProductViewModel
 import com.sartorio.degas.ui.orders.exportorder.ExportOrderViewModel
@@ -32,6 +34,8 @@ val appModule = module {
     viewModel { ExportOrderViewModel(get(), get()) }
     viewModel { AddProductViewModel(get(), get()) }
     viewModel { ClientsListViewModel(get(),get()) }
+    viewModel { CollectionsListViewModel(get(),get(),get()) }
+    viewModel { ImportClientViewModel(get(),get()) }
     single { ClientRepositoryImpl(get()) as ClientRepository }
     single {
         OrderRepositoryImpl(

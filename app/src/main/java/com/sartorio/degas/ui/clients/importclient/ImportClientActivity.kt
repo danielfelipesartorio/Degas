@@ -1,4 +1,4 @@
-package com.sartorio.degas.ui.collections.addproducts
+package com.sartorio.degas.ui.clients.importclient
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -10,16 +10,16 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.sartorio.degas.R
-import com.sartorio.degas.databinding.ActivityAddProductsBinding
+import com.sartorio.degas.databinding.ActivityImportClientBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.InputStream
 
 
-class AddProductsActivity : AppCompatActivity() {
+class ImportClientActivity : AppCompatActivity() {
 
-    private val addProductViewModel: AddProductViewModel by viewModel()
+    private val importClientViewModel: ImportClientViewModel by viewModel()
 
-    private lateinit var activityAddProductsBinding: ActivityAddProductsBinding
+    private lateinit var activityImportClientBinding: ActivityImportClientBinding
 
     private val dialog: AlertDialog by lazy {
         AlertDialog.Builder(this, R.style.TransparentDialog).apply {
@@ -30,9 +30,9 @@ class AddProductsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityAddProductsBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_add_products)
-        activityAddProductsBinding.addProductViewModel = addProductViewModel
+        activityImportClientBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_import_client)
+        activityImportClientBinding.importClientViewModel = importClientViewModel
         selectFile()
     }
 
@@ -56,9 +56,9 @@ class AddProductsActivity : AppCompatActivity() {
         if (requestCode == OPEN_FILE_REQUEST && resultCode == Activity.RESULT_OK) {
             val inputStream = getInputStream(data?.data ?: return)
             dialog.show()
-            addProductViewModel.processFile(inputStream)
+            importClientViewModel.processFile(inputStream)
             dialog.dismiss()
-            val error = addProductViewModel.error.get()
+            val error = importClientViewModel.error.get()
             if (error?.isNotBlank() == true) {
                 creteErrorDialog(error)
             }
@@ -90,7 +90,7 @@ class AddProductsActivity : AppCompatActivity() {
 
         @JvmStatic
         fun createIntent(context: Context): Intent {
-            return Intent(context, AddProductsActivity::class.java)
+            return Intent(context, ImportClientActivity::class.java)
         }
     }
 

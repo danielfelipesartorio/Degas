@@ -19,4 +19,10 @@ class ClientsListViewModel constructor(
         }
     }
 
+    fun removeClient(client: Client) {
+        coroutineScope.launch {
+            clientesRepository.removeClient(client)
+        }
+    }
+
 }

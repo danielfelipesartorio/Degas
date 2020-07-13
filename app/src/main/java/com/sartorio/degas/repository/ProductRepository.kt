@@ -6,4 +6,5 @@ interface ProductRepository {
     suspend fun getProductList(): List<Product>
     suspend fun getProductByCode(code: String): Product
     suspend fun updateProductList(productList : MutableList<Product>)
+    suspend fun deleteAll() :Boolean
 }

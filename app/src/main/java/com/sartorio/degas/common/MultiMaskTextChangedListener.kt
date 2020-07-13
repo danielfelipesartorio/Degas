@@ -4,7 +4,7 @@ import android.text.TextUtils
 import android.widget.EditText
 
 
-class MaskTextChangedListener(private val mask: String, private val editText: EditText) :
+class MultiMaskTextChangedListener(private val mask1: String, private val mask2: String, private val editText: EditText) :
     SimpleTextWatcher() {
     private var isUpdating: Boolean = false
     private var oldText: String? = ""
@@ -14,9 +14,11 @@ class MaskTextChangedListener(private val mask: String, private val editText: Ed
         if (this.isUpdating) {
             this.isUpdating = false
         } else {
+            val lesserMask = if (mask1.length <= mask2.length)  mask1 else mask2
+            val graterMask = if (mask1.length > mask2.length)  mask1 else mask2
             var text = removeMask(s!!.toString())
             if (text!!.length > this.oldText!!.length) {
-                val maskedText = maskText(this.mask, text)
+                val maskedText = if (s.length <= lesserMask.length) maskText(lesserMask, removeMask(text)) else  maskText(graterMask,  removeMask(text))
                 text = removeMask(maskedText)
                 this.isUpdating = true
                 this.editText.setText(maskedText)

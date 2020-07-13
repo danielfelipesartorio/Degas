@@ -11,4 +11,5 @@ interface OrderRepository {
     suspend fun getOrderById(orderId: Int): Order
     suspend fun removeOrder(productOrder: ProductOrder)
     suspend fun updateOrderList(product: Product, listOfOrders: MutableList<ProductOrder>, orderId: Int)
+    suspend fun deleteAll(): Boolean
 }

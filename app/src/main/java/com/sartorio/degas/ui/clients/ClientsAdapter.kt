@@ -8,7 +8,7 @@ import com.sartorio.degas.R
 import com.sartorio.degas.model.Client
 import kotlinx.android.synthetic.main.client_item.view.*
 
-class ClientsAdapter(var list: List<Client>, val listener: ClientsListOnClickListener) :
+class ClientsAdapter(var list: MutableList<Client>, val listener: ClientsListOnClickListener) :
     RecyclerView.Adapter<ClientViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClientViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -30,6 +30,15 @@ class ClientsAdapter(var list: List<Client>, val listener: ClientsListOnClickLis
         holder.itemView.setOnClickListener {
             listener.onClick(list[position])
         }
+        holder.itemView.setOnLongClickListener {
+            listener.onLongClick(list[position])
+            return@setOnLongClickListener true
+        }
+    }
+
+    fun removerItem(client: Client) {
+        list.remove(client)
+        notifyDataSetChanged()
     }
 
 }
