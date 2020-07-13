@@ -11,6 +11,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell
 import org.apache.poi.hssf.usermodel.HSSFRow
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.poifs.filesystem.POIFSFileSystem
+import org.apache.poi.ss.usermodel.CellType
 import java.io.InputStream
 
 class ImportClientViewModel constructor(
@@ -60,6 +61,7 @@ class ImportClientViewModel constructor(
                     var celular = ""
                     while (cellIter.hasNext()) {
                         val myCell = cellIter.next() as HSSFCell
+                        myCell.setCellType(CellType.STRING)
                         when (headerMap[myCell.columnIndex]) {
                             RAZAO_SOCIAL -> {
                                 razaoSocial = myCell.toString()

@@ -11,6 +11,8 @@ import org.apache.poi.hssf.usermodel.HSSFCell
 import org.apache.poi.hssf.usermodel.HSSFRow
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.poifs.filesystem.POIFSFileSystem
+import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.CellType
 import java.io.InputStream
 
 class AddProductViewModel constructor(
@@ -51,6 +53,7 @@ class AddProductViewModel constructor(
                     var cost = 0.0
                     while (cellIter.hasNext()) {
                         val myCell = cellIter.next() as HSSFCell
+                        myCell.setCellType(CellType.STRING)
                         when (headerMap[myCell.columnIndex]) {
                             CODE -> {
                                 code = myCell.toString()
