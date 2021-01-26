@@ -17,7 +17,9 @@ import kotlinx.android.synthetic.main.activity_export_order.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.util.*
 
 class ExportOrderActivity : AppCompatActivity() {
 
@@ -50,6 +52,8 @@ class ExportOrderActivity : AppCompatActivity() {
     private fun setupListeners() {
         buttonSend.setOnClickListener {
             exportOrderViewModel.order.observations = editTextObservations.text.toString()
+            exportOrderViewModel.order.paymentCondition = editTextOrderPaymentCondition.text.toString()
+            exportOrderViewModel.order.deliveryDate = SimpleDateFormat("dd/MM/yyyy").parse(editTextOrderDeliveryDate.text.toString())
             exportPdf()
         }
 

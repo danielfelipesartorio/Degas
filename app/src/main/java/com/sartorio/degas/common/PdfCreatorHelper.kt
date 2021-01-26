@@ -14,7 +14,9 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.net.URLConnection
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import java.util.*
 
 
 class PdfCreatorHelper(context: AppCompatActivity) {
@@ -35,7 +37,7 @@ class PdfCreatorHelper(context: AppCompatActivity) {
     }
 
     private fun fillFormPDF(order: Order, outputStream: FileOutputStream) {
-        val reader = PdfReader(mContext.resources.openRawResource(R.raw.degasform2020))
+        val reader = PdfReader(mContext.resources.openRawResource(R.raw.degasform2021))
         val stamper = PdfStamper(reader, outputStream)
         val acroFields = stamper.acroFields
 
@@ -47,6 +49,7 @@ class PdfCreatorHelper(context: AppCompatActivity) {
         var amountG = ""
         var amountGG = ""
         var amountG1 = ""
+        var price = ""
 
 
         acroFields.setField("companyName", order.client.name.companyName)
@@ -65,15 +68,29 @@ class PdfCreatorHelper(context: AppCompatActivity) {
         acroFields.setField("contactPhone1", order.client.contact.telephone)
         acroFields.setField("contactPhone2", order.client.contact.cellphone)
 
+        val format = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
+
+        acroFields.setField("obs", order.observations + "\nForma de Pagamento: " + order.paymentCondition + "\nPrevisão de entrega: " + SimpleDateFormat("dd/MM/yyyy").format(order.orderDate))
+        acroFields.setField(
+            "valueTotal",
+            format.format(order.productList.sumByDouble { it.quantity.values.sum() * it.product.cost })
+        )
+        acroFields.setField(
+            "amountTotal",
+            order.productList.sumBy { it.quantity.values.sum() }.toString()
+        )
+
+
         order.productList.forEach {
             codes += it.product.code + "\n"
             color += String.format("%03d", it.productColor) + "\n"
-            amountPP += (it.quantity["PP"] ?: "0").toString() + "\n"
-            amountP += (it.quantity["P"] ?: "0").toString() + "\n"
-            amountM += (it.quantity["M"] ?: "0").toString() + "\n"
-            amountG += (it.quantity["G"] ?: "0").toString() + "\n"
-            amountGG += (it.quantity["GG"] ?: "0").toString() + "\n"
-            amountG1 += (it.quantity["G1"] ?: "0").toString() + "\n"
+            amountPP += (it.quantity["PP"] ?: "-").toString() + "\n"
+            amountP += (it.quantity["P"] ?: "-").toString() + "\n"
+            amountM += (it.quantity["M"] ?: "-").toString() + "\n"
+            amountG += (it.quantity["G"] ?: "-").toString() + "\n"
+            amountGG += (it.quantity["GG"] ?: "-").toString() + "\n"
+            amountG1 += (it.quantity["G1"] ?: "-").toString() + "\n"
+            price += (format.format(it.product.cost).toString()) + "\n"
         }
 
         acroFields.setField("code", codes)
@@ -84,6 +101,7 @@ class PdfCreatorHelper(context: AppCompatActivity) {
         acroFields.setField("amountG", amountG)
         acroFields.setField("amountGG", amountGG)
         acroFields.setField("amountG1", amountG1)
+        acroFields.setField("price", price)
 
         stamper.close()
         reader.close()
