@@ -22,7 +22,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ExportOrderActivity : AppCompatActivity() {
-
+    private val dateFormat by lazy {
+        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    }
     private val dialog: AlertDialog by lazy {
         AlertDialog.Builder(this, R.style.TransparentDialog).apply {
             setView(R.layout.loading_dialog)
@@ -43,6 +45,13 @@ class ExportOrderActivity : AppCompatActivity() {
             this.exportOrderViewModel = this@ExportOrderActivity.exportOrderViewModel
         }
         init()
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 
     private fun init() {
@@ -53,7 +62,7 @@ class ExportOrderActivity : AppCompatActivity() {
         buttonSend.setOnClickListener {
             exportOrderViewModel.order.observations = editTextObservations.text.toString()
             exportOrderViewModel.order.paymentCondition = editTextOrderPaymentCondition.text.toString()
-            exportOrderViewModel.order.deliveryDate = SimpleDateFormat("dd/MM/yyyy").parse(editTextOrderDeliveryDate.text.toString())
+            exportOrderViewModel.order.deliveryDate = dateFormat.parse(editTextOrderDeliveryDate.text.toString())?:Date()
             exportPdf()
         }
 
@@ -71,7 +80,7 @@ class ExportOrderActivity : AppCompatActivity() {
                 val dialog = AlertDialog.Builder(this)
                     .setView(view)
                     .create()
-                datePickerView.setOnDateChangedListener { datePicker, year, month, day ->
+                datePickerView.setOnDateChangedListener { _, year, month, day ->
                     exportOrderViewModel.setDeliveryDate(day, month, year)
                     dialog.dismiss()
                 }
@@ -99,7 +108,7 @@ class ExportOrderActivity : AppCompatActivity() {
                     exportOrderViewModel.order.paymentCondition =
                         exportOrderViewModel.paymentOptions.get() ?: exportOrderViewModel.order.paymentCondition
                     exportOrderViewModel.order.deliveryDate =
-                        SimpleDateFormat("dd/MM/yyyy").parse(
+                        dateFormat.parse(
                             exportOrderViewModel.deliveryDate.get() ?: ""
                         ) ?: exportOrderViewModel.order.deliveryDate
                     super.onBackPressed()

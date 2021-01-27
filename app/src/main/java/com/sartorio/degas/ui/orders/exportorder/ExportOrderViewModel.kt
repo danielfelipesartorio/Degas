@@ -26,7 +26,7 @@ class ExportOrderViewModel(
     val paymentOptions = ObservableField<String>()
     val orderObservations = ObservableField<String>()
     val focusable = ObservableField<Boolean>(Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
-    val dateFormat by lazy {
+    private val dateFormat by lazy {
         SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     }
     val numberFormat by lazy {

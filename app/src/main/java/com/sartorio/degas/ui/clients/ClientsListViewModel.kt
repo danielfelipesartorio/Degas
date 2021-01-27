@@ -14,6 +14,10 @@ class ClientsListViewModel constructor(
     val clientsList = MutableLiveData<List<Client>>()
 
     fun initViewModel() {
+        getFreshClientList()
+    }
+
+    fun getFreshClientList() {
         coroutineScope.launch {
             clientsList.postValue(clientesRepository.getClientsList())
         }

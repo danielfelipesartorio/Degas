@@ -21,6 +21,8 @@ import kotlinx.android.synthetic.main.activity_order.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener {
 
@@ -61,6 +63,8 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order)
         initView()
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onResume() {
@@ -104,7 +108,10 @@ class OrderDetailsActivity : AppCompatActivity(), ProductListClickListener {
     private fun setupToolbar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title =
-            "${order.client.name.companyName} - ${SimpleDateFormat(SIMPLE_DATE_FORMAT).format(order.orderDate)}"
+            "${order.client.name.companyName} - ${SimpleDateFormat(
+                SIMPLE_DATE_FORMAT,
+                Locale("pt", "BR")
+            ).format(order.orderDate)}"
     }
 
     private fun setupObservers() {

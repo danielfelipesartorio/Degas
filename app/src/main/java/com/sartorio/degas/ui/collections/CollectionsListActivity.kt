@@ -4,8 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.sartorio.degas.R
@@ -15,19 +14,19 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class CollectionsListActivity : AppCompatActivity() {
     private val collectionListViewModel: CollectionsListViewModel by viewModel()
 
-    val deleteDialog: AlertDialog by lazy {
+    private val deleteDialog: AlertDialog by lazy {
         AlertDialog.Builder(this)
-            .setMessage("Deseja deletar todas as PEÇAS e PEDIDOS cadastrados? Essa ação não pode ser desfeita")
-            .setPositiveButton("Sim") { dialog, which -> deleteAll() }
-            .setNegativeButton("Não") { dialog, which -> dialog.dismiss() }
-            .setTitle("ATENÇÃO")
+            .setTitle(R.string.atention)
+            .setMessage(R.string.deleteAllDialogMessage)
+            .setPositiveButton(R.string.yes) { _, _ -> deleteAll() }
+            .setNegativeButton(R.string.no) { dialog, _ -> dialog.dismiss() }
             .create()
     }
 
-    val successDialog : AlertDialog by lazy {
+    private val successDialog: AlertDialog by lazy {
         AlertDialog.Builder(this)
             .setTitle("Sucesso")
-            .setPositiveButton("OK"){dialog, which -> dialog.dismiss() }
+            .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
             .create()
     }
     private val loadingDialog: AlertDialog by lazy {
@@ -43,6 +42,13 @@ class CollectionsListActivity : AppCompatActivity() {
             loadingDialog.dismiss()
             successDialog.show()
         })
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 
     private fun deleteAll() {
@@ -50,25 +56,18 @@ class CollectionsListActivity : AppCompatActivity() {
         collectionListViewModel.deleteAll()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.collection_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.addCollection -> startActivity(AddProductsActivity.createIntent(this))
-            R.id.deleteAllProducts -> {
-                deleteDialog.show()
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     companion object {
         @JvmStatic
         fun createIntent(context: Context): Intent {
             return Intent(context, CollectionsListActivity::class.java)
         }
+    }
+
+    fun onImportClick(view: View) {
+        startActivity(AddProductsActivity.createIntent(this))
+    }
+
+    fun onDeleteClick(view: View) {
+        deleteDialog.show()
     }
 }

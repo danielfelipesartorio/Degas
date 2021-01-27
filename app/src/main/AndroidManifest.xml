@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.collections.CollectionsListActivity"></activity>
+        <activity android:name=".ui.collections.CollectionsListActivity" />
         <activity android:name=".ui.clients.ClientsListActivity" />
         <activity android:name=".ui.home.HomeActivity" />
         <activity android:name=".ui.collections.addproducts.AddProductsActivity" />

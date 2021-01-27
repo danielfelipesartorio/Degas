@@ -27,8 +27,7 @@ class ProductOrderColorViewHolder(private val view: View) : RecyclerView.ViewHol
             view.layout.addView(itemView)
             itemView.textViewSizeLabel.text = size.key
             itemView.textViewAmountValue.text = (productOrder.quantity[size.key] ?: "0").toString()
-            //TODO remove this weird cast to string
-            itemView.textViewStockValue.text = "Estoque: ${(product.sizes[size.key]) as String}"
+            itemView.textViewStockValue.text = "Estoque: ${(product.sizes[size.key].toString())}"
             itemView.imageButtonAdd.setOnClickListener {
                 listener.plusOne(product.colors[position], size.key)
             }

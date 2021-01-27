@@ -9,7 +9,7 @@ import java.util.*
 
 class Converters {
 
-    //List<Int>
+    //Converter for List<Int>
     @TypeConverter
     fun listToJson(value: List<Int>?): String = Gson().toJson(value)
 
@@ -17,7 +17,7 @@ class Converters {
     fun jsonToList(value: String): List<Int>? =
         (Gson().fromJson(value, Array<Int>::class.java) as Array<Int>).toList()
 
-    //Map<String,Int>
+    //Converter for Map<String,Int>
     @TypeConverter
     fun mapToJson(value: Map<String, Int>?): String = Gson().toJson(value)
 
@@ -26,7 +26,7 @@ class Converters {
         return Gson().fromJson(value, object : TypeToken<Map<String, String>>() {}.type)
     }
 
-    //List<ProductOrder>
+    //Converter for List<ProductOrder>
     @TypeConverter
     fun listProductToJson(value: List<ProductOrder>?): String = Gson().toJson(value)
 

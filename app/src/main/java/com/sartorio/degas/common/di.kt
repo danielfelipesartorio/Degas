@@ -36,18 +36,18 @@ val appModule = module {
     viewModel { ClientsListViewModel(get(),get()) }
     viewModel { CollectionsListViewModel(get(),get(),get()) }
     viewModel { ImportClientViewModel(get(),get()) }
-    single { ClientRepositoryImpl(get()) as ClientRepository }
-    single {
+    single<ClientRepository> { ClientRepositoryImpl(get())}
+    single<OrderRepository> {
         OrderRepositoryImpl(
             get(),
             get(),
             get()
-        ) as OrderRepository
+        )
     }
-    single {
+    single<ProductRepository> {
         ProductRepositoryImpl(
             get()
-        ) as ProductRepository
+        )
     }
 
     single {

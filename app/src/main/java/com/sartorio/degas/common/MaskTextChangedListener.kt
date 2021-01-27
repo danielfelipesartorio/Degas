@@ -50,13 +50,13 @@ class MaskTextChangedListener(private val mask: String, private val editText: Ed
             for (maskCharIndex in 0 until maskLength) {
                 val maskCharacter = maskCharacters[maskCharIndex]
                 if (maskCharacter == '#') {
-                    maskedText = maskedText + text!![textCharIndex]
+                    maskedText += text!![textCharIndex]
                     textCharIndex++
                     if (textCharIndex >= text.length) {
                         break
                     }
                 } else {
-                    maskedText = maskedText + maskCharacter
+                    maskedText += maskCharacter
                 }
             }
             return maskedText

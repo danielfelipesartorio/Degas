@@ -45,9 +45,14 @@ class OrdersListActivity : AppCompatActivity(),
         setContentView(R.layout.activity_main)
         supportActionBar?.title = "Pedidos Cadastrados"
         initView()
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
 
     override fun onResume() {
         super.onResume()

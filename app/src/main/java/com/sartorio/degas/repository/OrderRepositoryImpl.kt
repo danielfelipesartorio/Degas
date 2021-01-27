@@ -21,7 +21,7 @@ class OrderRepositoryImpl(
     override suspend fun addNewOrder(clientName: String) {
         orderDao.insert(
             Order(
-                ((getOrdersList().maxBy { it.id }?.id ?: 0) + 1),
+                ((getOrdersList().maxByOrNull { it.id }?.id ?: 0) + 1),
                 clientRepository.getClientByName(clientName),
                 Date()
             )

@@ -4,7 +4,7 @@
     <item
         android:id="@+id/print"
         android:icon="@drawable/ic_picture_as_pdf_white_24dp"
-        android:title="Salvar PDF"
+        android:title="@string/savePdf"
         app:showAsAction="always" />
 
 </menu>

@@ -77,7 +77,7 @@ class ImportClientActivity : AppCompatActivity() {
         AlertDialog.Builder(this).apply {
             setTitle("ERRO")
             setMessage(message)
-            setPositiveButton("OK") { _, _ -> }
+            setPositiveButton(R.string.ok) { _, _ -> }
         }.show()
 
     fun close(view: View) {

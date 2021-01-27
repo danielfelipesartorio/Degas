@@ -21,6 +21,9 @@ import java.util.*
 
 class PdfCreatorHelper(context: AppCompatActivity) {
     private val mContext: AppCompatActivity = context
+    private val dateFormat by lazy {
+        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    }
 
     fun printPDF(order: Order) {
         if (isExternalStorageWritable()) {
@@ -70,7 +73,12 @@ class PdfCreatorHelper(context: AppCompatActivity) {
 
         val format = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
 
-        acroFields.setField("obs", order.observations + "\nForma de Pagamento: " + order.paymentCondition + "\nPrevisão de entrega: " + SimpleDateFormat("dd/MM/yyyy").format(order.orderDate))
+        acroFields.setField(
+            "obs",
+            order.observations + "\nForma de Pagamento: " + order.paymentCondition + "\nPrevisão de entrega: " + dateFormat.format(
+                order.orderDate
+            )
+        )
         acroFields.setField(
             "valueTotal",
             format.format(order.productList.sumByDouble { it.quantity.values.sum() * it.product.cost })
@@ -148,7 +156,10 @@ class PdfCreatorHelper(context: AppCompatActivity) {
      * @return String
      */
     private fun getFileName(order: Order): String {
-        return "${order.client.name.companyName} - ${SimpleDateFormat("dd.MM.yyyy").format(order.orderDate)}" + ".pdf"
+        return "${order.client.name.companyName} - ${SimpleDateFormat(
+            "dd.MM.yyyy",
+            Locale("pt", "BR")
+        ).format(order.orderDate)}" + ".pdf"
     }
 
 }

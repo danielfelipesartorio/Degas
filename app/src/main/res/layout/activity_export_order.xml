@@ -85,7 +85,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:focusable="@{exportOrderViewModel.focusable}"
-                android:hint="Prazo de entrega"
+                android:hint="@string/deliveryDateLabel"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -102,7 +102,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/orderPaymentOptionDateLayout"
                 android:layout_width="match_parent"
-                android:hint="Condição de pagamento"
+                android:hint="@string/paymentConditionLabel"
                 app:layout_constraintTop_toBottomOf="@id/orderDeliveryDateLayout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -140,7 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:background="@drawable/button_background"
-            android:text="Enviar"
+            android:text="@string/send"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

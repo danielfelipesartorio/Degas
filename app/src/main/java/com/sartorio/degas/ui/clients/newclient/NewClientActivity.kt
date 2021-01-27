@@ -36,12 +36,14 @@ class NewClientActivity : AppCompatActivity(), OnStepConcludedListener {
             client = it
             startFlow()
         })
-        setupToolbar()
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Cadastro de novo cliente"
     }
 
-    private fun setupToolbar() {
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.title = "Cadastro de novo cliente"
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 
     override fun onBackPressed() {

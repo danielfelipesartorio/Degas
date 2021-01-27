@@ -36,6 +36,8 @@ class ProductActivity : AppCompatActivity(), ProductClickListener {
         orderId = intent.getIntExtra(ORDER_ID, 0)
 
         initView()
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onSupportNavigateUp(): Boolean {

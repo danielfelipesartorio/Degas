@@ -34,6 +34,13 @@ class AddProductsActivity : AppCompatActivity() {
             DataBindingUtil.setContentView(this, R.layout.activity_add_products)
         activityAddProductsBinding.addProductViewModel = addProductViewModel
         selectFile()
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 
     private fun selectFile() {
@@ -77,7 +84,7 @@ class AddProductsActivity : AppCompatActivity() {
         AlertDialog.Builder(this).apply {
             setTitle("ERRO")
             setMessage(message)
-            setPositiveButton("OK") { _, _ -> }
+            setPositiveButton(R.string.ok) { _, _ -> }
         }.show()
 
     fun close(view: View) {

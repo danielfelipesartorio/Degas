@@ -21,11 +21,13 @@ class ClientsListActivity : AppCompatActivity(), ClientsListOnClickListener {
     }
 
     override fun onLongClick(client: Client) {
-        AlertDialog.Builder(this)
-            .setPositiveButton("Deletar") { dialog, which ->
+        android.app.AlertDialog.Builder(this)
+            .setTitle(R.string.deleteClientDialogTitle)
+            .setPositiveButton(R.string.delete) { _, _ ->
                 adapter.removerItem(client)
                 clientsListViewModel.removeClient(client)
             }
+            .setNegativeButton(R.string.cancel) { _, _ -> }
             .show()
     }
 
@@ -36,11 +38,17 @@ class ClientsListActivity : AppCompatActivity(), ClientsListOnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_clients_list)
         initView()
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 
     override fun onResume() {
-        clientsListViewModel.initViewModel()
-        adapter.notifyDataSetChanged()
+        clientsListViewModel.getFreshClientList()
         super.onResume()
     }
 
@@ -59,11 +67,13 @@ class ClientsListActivity : AppCompatActivity(), ClientsListOnClickListener {
 
     private fun setupListeners() {
         buttonNewClient.setOnClickListener {
-            val dialog: AlertDialog = AlertDialog.Builder(this)
-                .setPositiveButton("Importar") { dialog, which ->
+            AlertDialog.Builder(this)
+                .setTitle(R.string.newClientDialogTitle)
+                .setMessage(R.string.newClientDialogMessage)
+                .setPositiveButton(R.string.newClientDialogImport) { _, _ ->
                     startActivity(ImportClientActivity.createIntent(this))
                 }
-                .setNegativeButton("Cadastrar") { dialog, which ->
+                .setNegativeButton(R.string.newClientDialogManual) { _, _ ->
                     startActivity(NewClientActivity.createIntent(this))
                 }
                 .show()
